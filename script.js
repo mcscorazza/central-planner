@@ -429,7 +429,7 @@ function renderizarProjetos() {
     divItem.className = `projeto-item ${projeto.aberto ? '' : 'collapsed'}`;
 
     // Cabeçalho do Projeto
-const divHeader = document.createElement('div');
+    const divHeader = document.createElement('div');
     divHeader.className = 'projeto-header';
     divHeader.innerHTML = `
       <div class="projeto-titulo">${projeto.nome}</div>
@@ -461,7 +461,7 @@ const divHeader = document.createElement('div');
     // === NOVA LÓGICA: DELETAR PROJETO ===
     divHeader.querySelector('.btn-deletar-projeto').addEventListener('click', (e) => {
       e.stopPropagation(); // Evita acionar o acordeon
-      
+
       if (confirm(`Tem certeza que deseja excluir o projeto "${projeto.nome}" e todas as suas tarefas?`)) {
         projetos = projetos.filter(p => p.id !== projeto.id);
         salvarProjetos();
@@ -558,10 +558,7 @@ renderizarProjetos();
 // --- LÓGICA DO TRACKER DE HÁBITOS ---
 
 // Carrega os hábitos ou inicia com mocks
-let habitos = JSON.parse(localStorage.getItem('habitosState')) || [
-  { id: 1, nome: "💧 Beber 2L de Água", dias: [false, false, false, false, false, false, false] },
-  { id: 2, nome: "🏋️ Exercício", dias: [false, false, false, false, false, false, false] }
-];
+let habitos = JSON.parse(localStorage.getItem('habitosState')) || [];
 
 const iniciaisDias = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
 
@@ -641,12 +638,12 @@ renderizarHabitos();
 // Limpar a semana (Zerar todos os hábitos)
 document.getElementById('btn-limpar-habitos').addEventListener('click', () => {
   if (habitos.length === 0) return;
-  
+
   if (confirm('Tem certeza que deseja zerar todos os dias para iniciar uma nova semana?')) {
     habitos.forEach(habito => {
       habito.dias = [false, false, false, false, false, false, false];
     });
-    
+
     salvarHabitos();
     renderizarHabitos();
   }
@@ -656,10 +653,7 @@ document.getElementById('btn-limpar-habitos').addEventListener('click', () => {
 // --- LÓGICA DE CONSULTAS E EXAMES ---
 // ==========================================
 
-let consultas = JSON.parse(localStorage.getItem('consultasState')) || [
-  { id: 1, data: "12/08 - 14:00", desc: "Oftalmologista" },
-  { id: 2, data: "20/08 - 08:00", desc: "Exames de Sangue" }
-];
+let consultas = JSON.parse(localStorage.getItem('consultasState')) || [];
 
 function salvarConsultas() {
   localStorage.setItem('consultasState', JSON.stringify(consultas));
@@ -672,10 +666,10 @@ function renderizarConsultas() {
   consultas.forEach(consulta => {
     const li = document.createElement('li');
     li.className = 'consulta-item';
-    
+
     li.innerHTML = `
       <div class="consulta-info">
-        <span class="consulta-data">• ${consulta.data}</span>
+        <span class="consulta-data">${consulta.data}</span>
         <span class="consulta-desc">${consulta.desc}</span>
       </div>
       <span class="consulta-deletar" title="Cancelar Agendamento">✖</span>
@@ -692,7 +686,7 @@ function renderizarConsultas() {
 
     lista.appendChild(li);
   });
-  
+
   if (consultas.length === 0) {
     lista.innerHTML = `<li style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 10px 0;">Nenhuma consulta agendada</li>`;
   }
@@ -715,7 +709,7 @@ document.getElementById('form-consulta').addEventListener('submit', (e) => {
   e.preventDefault();
   const data = document.getElementById('cons-input-data').value;
   const desc = document.getElementById('cons-input-desc').value;
-  
+
   consultas.push({ id: Date.now(), data, desc });
   salvarConsultas();
   renderizarConsultas();
@@ -762,10 +756,10 @@ function aplicarEnergia(nivel) {
 botoesEnergia.forEach(btn => {
   btn.addEventListener('click', (e) => {
     const nivelSelecionado = e.currentTarget.dataset.nivel;
-    
+
     // Salva no LocalStorage
     localStorage.setItem('energiaState', nivelSelecionado);
-    
+
     // Aplica o visual
     aplicarEnergia(nivelSelecionado);
   });
@@ -798,7 +792,7 @@ function calcularDuracaoSono(inicio, fim) {
 
   // Se a hora de acordar for menor que a de dormir, significa que virou o dia (passou da meia-noite)
   if (totalMinutosFim < totalMinutosInicio) {
-    totalMinutosFim += 24 * 60; 
+    totalMinutosFim += 24 * 60;
   }
 
   let diff = totalMinutosFim - totalMinutosInicio;

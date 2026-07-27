@@ -819,7 +819,8 @@ body {
 
 .consulta-data {
   font-size: 0.75rem;
-  color: var(--cor-falha); /* Mantém o vermelho do seu layout original */
+  color: var(--cor-neutro);
+  /* Mantém o vermelho do seu layout original */
   font-weight: 600;
 }
 
@@ -845,6 +846,13 @@ body {
   color: var(--cor-falha);
   transform: scale(1.2);
 }
+
+#lista-consultas {
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
 
 /* --- ESTILOS DO MONITOR DE ENERGIA --- */
 .energia-container {
@@ -874,7 +882,6 @@ body {
   opacity: 0.8;
 }
 
-/* Classes ativas para cada nível */
 .btn-energia.ativa-baixa {
   filter: grayscale(0%);
   opacity: 1;
@@ -924,7 +931,8 @@ body {
   padding: 6px 8px;
   font-family: inherit;
   font-size: 0.9rem;
-  color-scheme: dark; /* Força o ícone de reloginho a ficar claro */
+  color-scheme: dark;
+  /* Força o ícone de reloginho a ficar claro */
 }
 
 .sono-resultado {
