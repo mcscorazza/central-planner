@@ -400,3 +400,442 @@ document.querySelectorAll('.widget.collapsible').forEach(widget => {
     localStorage.setItem('widgetsFechados', JSON.stringify(widgetsFechados));
   });
 });
+
+// --- LÓGICA DE PROJETOS E TAREFAS ---
+
+// Inicia com um mock ou carrega do LocalStorage
+let projetos = JSON.parse(localStorage.getItem('projetosState')) || [
+  {
+    id: Date.now(),
+    nome: "Dashboard Pessoal",
+    aberto: true,
+    tarefas: [
+      { id: 101, desc: "Refatorar widget de Projetos", concluida: false },
+      { id: 102, desc: "Criar modais de tarefas", concluida: true }
+    ]
+  }
+];
+
+function salvarProjetos() {
+  localStorage.setItem('projetosState', JSON.stringify(projetos));
+}
+
+function renderizarProjetos() {
+  const container = document.getElementById('lista-projetos-container');
+  container.innerHTML = '';
+
+  projetos.forEach(projeto => {
+    const divItem = document.createElement('div');
+    divItem.className = `projeto-item ${projeto.aberto ? '' : 'collapsed'}`;
+
+    // Cabeçalho do Projeto
+const divHeader = document.createElement('div');
+    divHeader.className = 'projeto-header';
+    divHeader.innerHTML = `
+      <div class="projeto-titulo">${projeto.nome}</div>
+      <div class="projeto-acoes">
+        <button class="btn-add-tarefa" title="Adicionar Tarefa">+task</button>
+        <span class="btn-deletar-projeto" title="Excluir Projeto">✖</span>
+      </div>
+    `;
+
+    // Lógica do Acordeon (Exclusivo: abre um, fecha os outros)
+    divHeader.querySelector('.projeto-titulo').addEventListener('click', () => {
+      // Se clicou no que já tá aberto, só fecha. Se clicou em outro, fecha todos e abre ele.
+      const estavaAberto = projeto.aberto;
+      projetos.forEach(p => p.aberto = false); // Fecha todos
+      if (!estavaAberto) projeto.aberto = true; // Abre o que foi clicado
+
+      salvarProjetos();
+      renderizarProjetos(); // Re-renderiza para aplicar animações
+    });
+
+    // Lógica de Abrir Modal de Tarefa
+    divHeader.querySelector('.btn-add-tarefa').addEventListener('click', (e) => {
+      e.stopPropagation(); // Evita que o clique acione o acordeon
+      document.getElementById('input-id-projeto-tarefa').value = projeto.id;
+      document.getElementById('input-desc-tarefa').value = '';
+      document.getElementById('modal-nova-tarefa').showModal();
+    });
+
+    // === NOVA LÓGICA: DELETAR PROJETO ===
+    divHeader.querySelector('.btn-deletar-projeto').addEventListener('click', (e) => {
+      e.stopPropagation(); // Evita acionar o acordeon
+      
+      if (confirm(`Tem certeza que deseja excluir o projeto "${projeto.nome}" e todas as suas tarefas?`)) {
+        projetos = projetos.filter(p => p.id !== projeto.id);
+        salvarProjetos();
+        renderizarProjetos();
+      }
+    });
+
+    // Lista de Tarefas
+    const ulTarefas = document.createElement('ul');
+    ulTarefas.className = 'lista-tarefas';
+
+    projeto.tarefas.forEach(tarefa => {
+      const li = document.createElement('li');
+      li.className = `tarefa-item ${tarefa.concluida ? 'concluida' : ''}`;
+
+      li.innerHTML = `
+        <input type="checkbox" class="tarefa-checkbox" ${tarefa.concluida ? 'checked' : ''}>
+        <span>${tarefa.desc}</span>
+      `;
+
+      // Lógica do Checkbox da Tarefa
+      li.querySelector('input').addEventListener('change', (e) => {
+        tarefa.concluida = e.target.checked;
+        salvarProjetos();
+        renderizarProjetos();
+      });
+
+      ulTarefas.appendChild(li);
+    });
+
+    // Adiciona "Sem tarefas" se estiver vazio
+    if (projeto.tarefas.length === 0) {
+      ulTarefas.innerHTML = `<li class="tarefa-item" style="color: var(--text-muted); font-style: italic; justify-content: center;">Nenhuma tarefa pendente</li>`;
+    }
+
+    divItem.appendChild(divHeader);
+    divItem.appendChild(ulTarefas);
+    container.appendChild(divItem);
+  });
+}
+
+// Controles do Modal de NOVO PROJETO
+document.getElementById('btn-novo-projeto').addEventListener('click', () => {
+  document.getElementById('input-nome-projeto').value = '';
+  document.getElementById('modal-novo-projeto').showModal();
+});
+
+document.getElementById('btn-cancelar-projeto').addEventListener('click', () => {
+  document.getElementById('modal-novo-projeto').close();
+});
+
+document.getElementById('form-novo-projeto').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nome = document.getElementById('input-nome-projeto').value;
+
+  projetos.forEach(p => p.aberto = false); // Fecha os outros
+
+  projetos.push({
+    id: Date.now(),
+    nome: nome,
+    aberto: true, // Já cria e deixa aberto
+    tarefas: []
+  });
+
+  salvarProjetos();
+  renderizarProjetos();
+  document.getElementById('modal-novo-projeto').close();
+});
+
+// Controles do Modal de NOVA TAREFA
+document.getElementById('btn-cancelar-tarefa').addEventListener('click', () => {
+  document.getElementById('modal-nova-tarefa').close();
+});
+
+document.getElementById('form-nova-tarefa').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const idProj = parseInt(document.getElementById('input-id-projeto-tarefa').value);
+  const desc = document.getElementById('input-desc-tarefa').value;
+
+  const projeto = projetos.find(p => p.id === idProj);
+  if (projeto) {
+    projeto.tarefas.push({ id: Date.now(), desc: desc, concluida: false });
+    projeto.aberto = true; // Garante que o projeto fique aberto pra ver a nova tarefa
+    salvarProjetos();
+    renderizarProjetos();
+  }
+
+  document.getElementById('modal-nova-tarefa').close();
+});
+
+// Renderiza tudo ao carregar a página
+renderizarProjetos();
+
+// --- LÓGICA DO TRACKER DE HÁBITOS ---
+
+// Carrega os hábitos ou inicia com mocks
+let habitos = JSON.parse(localStorage.getItem('habitosState')) || [
+  { id: 1, nome: "💧 Beber 2L de Água", dias: [false, false, false, false, false, false, false] },
+  { id: 2, nome: "🏋️ Exercício", dias: [false, false, false, false, false, false, false] }
+];
+
+const iniciaisDias = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
+
+function salvarHabitos() {
+  localStorage.setItem('habitosState', JSON.stringify(habitos));
+}
+
+function renderizarHabitos() {
+  const container = document.getElementById('lista-habitos-container');
+  container.innerHTML = '';
+
+  habitos.forEach((habito, indexHabito) => {
+    const divItem = document.createElement('div');
+    divItem.className = 'habito-item';
+
+    // Nome do hábito e botão de deletar
+    const divInfo = document.createElement('div');
+    divInfo.style.display = 'flex';
+    divInfo.style.alignItems = 'center';
+    divInfo.innerHTML = `
+      <span class="habito-nome" title="${habito.nome}">${habito.nome}</span>
+      <span class="habito-deletar" title="Excluir hábito">✖</span>
+    `;
+
+    // Deletar hábito
+    divInfo.querySelector('.habito-deletar').addEventListener('click', () => {
+      if (confirm(`Remover o hábito "${habito.nome}"?`)) {
+        habitos.splice(indexHabito, 1);
+        salvarHabitos();
+        renderizarHabitos();
+      }
+    });
+
+    // Grid de dias
+    const divDias = document.createElement('div');
+    divDias.className = 'habito-dias';
+
+    habito.dias.forEach((concluido, indexDia) => {
+      const divDia = document.createElement('div');
+      divDia.className = `dia ${concluido ? 'concluido' : ''}`;
+      divDia.innerText = iniciaisDias[indexDia];
+      divDia.title = iniciaisDias[indexDia];
+
+      // Alternar status do dia ao clicar
+      divDia.addEventListener('click', () => {
+        habito.dias[indexDia] = !habito.dias[indexDia];
+        salvarHabitos();
+        renderizarHabitos();
+      });
+
+      divDias.appendChild(divDia);
+    });
+
+    divItem.appendChild(divInfo);
+    divItem.appendChild(divDias);
+    container.appendChild(divItem);
+  });
+}
+
+// Adicionar novo hábito
+document.getElementById('btn-novo-habito').addEventListener('click', () => {
+  const novoNome = prompt('Qual o nome do novo hábito?');
+  if (novoNome && novoNome.trim() !== '') {
+    habitos.push({
+      id: Date.now(),
+      nome: novoNome.trim(),
+      dias: [false, false, false, false, false, false, false]
+    });
+    salvarHabitos();
+    renderizarHabitos();
+  }
+});
+
+// Renderiza ao iniciar
+renderizarHabitos();
+
+// Limpar a semana (Zerar todos os hábitos)
+document.getElementById('btn-limpar-habitos').addEventListener('click', () => {
+  if (habitos.length === 0) return;
+  
+  if (confirm('Tem certeza que deseja zerar todos os dias para iniciar uma nova semana?')) {
+    habitos.forEach(habito => {
+      habito.dias = [false, false, false, false, false, false, false];
+    });
+    
+    salvarHabitos();
+    renderizarHabitos();
+  }
+});
+
+// ==========================================
+// --- LÓGICA DE CONSULTAS E EXAMES ---
+// ==========================================
+
+let consultas = JSON.parse(localStorage.getItem('consultasState')) || [
+  { id: 1, data: "12/08 - 14:00", desc: "Oftalmologista" },
+  { id: 2, data: "20/08 - 08:00", desc: "Exames de Sangue" }
+];
+
+function salvarConsultas() {
+  localStorage.setItem('consultasState', JSON.stringify(consultas));
+}
+
+function renderizarConsultas() {
+  const lista = document.getElementById('lista-consultas');
+  lista.innerHTML = '';
+
+  consultas.forEach(consulta => {
+    const li = document.createElement('li');
+    li.className = 'consulta-item';
+    
+    li.innerHTML = `
+      <div class="consulta-info">
+        <span class="consulta-data">• ${consulta.data}</span>
+        <span class="consulta-desc">${consulta.desc}</span>
+      </div>
+      <span class="consulta-deletar" title="Cancelar Agendamento">✖</span>
+    `;
+
+    // Deletar Consulta
+    li.querySelector('.consulta-deletar').addEventListener('click', () => {
+      if (confirm(`Deseja remover o agendamento: ${consulta.desc}?`)) {
+        consultas = consultas.filter(c => c.id !== consulta.id);
+        salvarConsultas();
+        renderizarConsultas();
+      }
+    });
+
+    lista.appendChild(li);
+  });
+  
+  if (consultas.length === 0) {
+    lista.innerHTML = `<li style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 10px 0;">Nenhuma consulta agendada</li>`;
+  }
+}
+
+// Modal de Consultas
+const modalConsulta = document.getElementById('modal-consulta');
+
+document.getElementById('btn-nova-consulta').addEventListener('click', () => {
+  document.getElementById('cons-input-data').value = '';
+  document.getElementById('cons-input-desc').value = '';
+  modalConsulta.showModal();
+});
+
+document.getElementById('btn-cancelar-cons').addEventListener('click', () => {
+  modalConsulta.close();
+});
+
+document.getElementById('form-consulta').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const data = document.getElementById('cons-input-data').value;
+  const desc = document.getElementById('cons-input-desc').value;
+  
+  consultas.push({ id: Date.now(), data, desc });
+  salvarConsultas();
+  renderizarConsultas();
+  modalConsulta.close();
+});
+
+renderizarConsultas();
+
+
+// ==========================================
+// --- LÓGICA DO MONITOR DE ENERGIA ---
+// ==========================================
+
+const botoesEnergia = document.querySelectorAll('.btn-energia');
+const textoStatus = document.getElementById('energia-status');
+
+// Puxa o estado salvo ou deixa em branco
+let energiaHoje = localStorage.getItem('energiaState') || null;
+
+const mensagensEnergia = {
+  baixa: "Pegue leve. Foque apenas no essencial hoje.",
+  media: "Ritmo constante. Bom dia para tarefas moderadas.",
+  alta: "No auge! Ideal para deep work e projetos complexos."
+};
+
+function aplicarEnergia(nivel) {
+  // Limpa todos os botões
+  botoesEnergia.forEach(btn => {
+    btn.classList.remove('ativa-baixa', 'ativa-media', 'ativa-alta');
+  });
+
+  // Se tem um nível definido, aplica a classe visual e o texto correspondente
+  if (nivel) {
+    const btnAtivo = document.querySelector(`.btn-energia[data-nivel="${nivel}"]`);
+    if (btnAtivo) {
+      btnAtivo.classList.add(`ativa-${nivel}`);
+      textoStatus.innerText = mensagensEnergia[nivel];
+      textoStatus.style.color = "var(--text-main)";
+    }
+  }
+}
+
+// Evento de clique em cada botão
+botoesEnergia.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const nivelSelecionado = e.currentTarget.dataset.nivel;
+    
+    // Salva no LocalStorage
+    localStorage.setItem('energiaState', nivelSelecionado);
+    
+    // Aplica o visual
+    aplicarEnergia(nivelSelecionado);
+  });
+});
+
+// Inicializa a energia ao carregar a página
+aplicarEnergia(energiaHoje);
+
+// ==========================================
+// --- LÓGICA DO MONITOR DE SONO ---
+// ==========================================
+
+const inputInicio = document.getElementById('sono-inicio');
+const inputFim = document.getElementById('sono-fim');
+const divResultado = document.getElementById('sono-resultado');
+const btnSalvarSono = document.getElementById('btn-salvar-sono');
+
+// Carrega o último registro ou inicia vazio
+let sonoState = JSON.parse(localStorage.getItem('sonoState')) || { inicio: '', fim: '' };
+
+function calcularDuracaoSono(inicio, fim) {
+  if (!inicio || !fim) return null;
+
+  // Separa horas e minutos e converte para números
+  let [hInicio, mInicio] = inicio.split(':').map(Number);
+  let [hFim, mFim] = fim.split(':').map(Number);
+
+  let totalMinutosInicio = (hInicio * 60) + mInicio;
+  let totalMinutosFim = (hFim * 60) + mFim;
+
+  // Se a hora de acordar for menor que a de dormir, significa que virou o dia (passou da meia-noite)
+  if (totalMinutosFim < totalMinutosInicio) {
+    totalMinutosFim += 24 * 60; 
+  }
+
+  let diff = totalMinutosFim - totalMinutosInicio;
+  let horas = Math.floor(diff / 60);
+  let minutos = diff % 60;
+
+  return { horas, minutos };
+}
+
+function renderizarSono() {
+  inputInicio.value = sonoState.inicio;
+  inputFim.value = sonoState.fim;
+
+  const duracao = calcularDuracaoSono(sonoState.inicio, sonoState.fim);
+
+  if (duracao) {
+    // Define a cor baseada na quantidade de horas dormidas
+    let cor = 'var(--cor-falha)'; // Menos de 5h (Vermelho)
+    if (duracao.horas >= 7) cor = 'var(--cor-check)'; // 7h ou mais (Verde)
+    else if (duracao.horas >= 5) cor = 'var(--cor-alerta)'; // 5h a 6h (Amarelo)
+
+    divResultado.innerHTML = `
+      Tempo total de descanso:
+      <span class="sono-destaque" style="color: ${cor}">${duracao.horas}h ${duracao.minutos}m</span>
+    `;
+  } else {
+    divResultado.innerHTML = `<span style="font-style: italic;">Insira os horários para calcular</span>`;
+  }
+}
+
+// Salva e atualiza a interface ao clicar no botão
+btnSalvarSono.addEventListener('click', () => {
+  sonoState.inicio = inputInicio.value;
+  sonoState.fim = inputFim.value;
+  localStorage.setItem('sonoState', JSON.stringify(sonoState));
+  renderizarSono();
+});
+
+// Renderiza ao iniciar a página
+renderizarSono();

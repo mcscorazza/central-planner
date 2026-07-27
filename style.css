@@ -38,7 +38,7 @@ body {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1.2fr 2.5fr 1.5fr 1.2fr;
+  grid-template-columns: 1.4fr 2.2fr 1.5fr 1.2fr;
   gap: 8px;
   height: 100vh;
   padding: 8px;
@@ -588,4 +588,358 @@ body {
 .widget.collapsed .conteudo-colapsavel {
   max-height: 0;
   opacity: 0;
+}
+
+/* --- ESTILOS DO WIDGET DE PROJETOS --- */
+
+.projeto-item {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.projeto-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+  background-color: rgba(255, 255, 255, 0.03);
+  transition: background-color 0.2s;
+}
+
+.projeto-header:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.projeto-titulo {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Setinha do acordeon */
+.projeto-titulo::before {
+  content: '▼';
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.projeto-item.collapsed .projeto-titulo::before {
+  transform: rotate(-90deg);
+}
+
+.btn-add-tarefa {
+  background: transparent;
+  border: 1px dashed var(--border-color);
+  color: var(--text-muted);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-add-tarefa:hover {
+  color: var(--cor-check);
+  border-color: var(--cor-check);
+  background: rgba(8, 150, 60, 0.1);
+}
+
+/* Lista de tarefas colapsável */
+.lista-tarefas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+}
+
+.projeto-item.collapsed .lista-tarefas {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.tarefa-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px dashed var(--border-color);
+  font-size: 0.9rem;
+  gap: 10px;
+}
+
+.tarefa-checkbox {
+  accent-color: var(--cor-check);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.tarefa-item.concluida span {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* --- AÇÕES DO HEADER DO PROJETO --- */
+.projeto-acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-deletar-projeto {
+  cursor: pointer;
+  color: var(--border-color);
+  font-size: 0.9rem;
+  transition: color 0.2s, transform 0.2s;
+  padding: 4px;
+}
+
+.projeto-item:hover .btn-deletar-projeto {
+  color: var(--text-muted);
+}
+
+.btn-deletar-projeto:hover {
+  color: var(--cor-falha) !important;
+  transform: scale(1.1);
+}
+
+#lista-projetos-container {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+
+/* --- ESTILOS DO TRACKER DE HÁBITOS --- */
+.lista-habitos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.habito-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.habito-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.habito-nome {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+}
+
+.habito-dias {
+  display: flex;
+  gap: 4px;
+}
+
+.dia {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: var(--cor-vazio);
+  color: #666;
+  font-size: 0.6rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.dia:hover {
+  color: var(--text-muted);
+  transform: scale(1.1);
+}
+
+.dia.concluido {
+  background-color: var(--cor-check);
+  color: transparent;
+  box-shadow: 0 0 6px rgba(8, 150, 60, 0.4);
+}
+
+.habito-deletar {
+  cursor: pointer;
+  color: var(--border-color);
+  font-size: 0.8rem;
+  margin-left: 8px;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.habito-item:hover .habito-deletar {
+  opacity: 1;
+}
+
+.habito-deletar:hover {
+  color: var(--cor-falha);
+}
+
+/* --- ESTILOS DE CONSULTAS E EXAMES --- */
+.consulta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.consulta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 8px;
+}
+
+.consulta-data {
+  font-size: 0.75rem;
+  color: var(--cor-falha); /* Mantém o vermelho do seu layout original */
+  font-weight: 600;
+}
+
+.consulta-desc {
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+.consulta-deletar {
+  cursor: pointer;
+  color: var(--border-color);
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  padding: 4px;
+}
+
+.consulta-item:hover .consulta-deletar {
+  opacity: 1;
+}
+
+.consulta-deletar:hover {
+  color: var(--cor-falha);
+  transform: scale(1.2);
+}
+
+/* --- ESTILOS DO MONITOR DE ENERGIA --- */
+.energia-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.btn-energia {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  filter: grayscale(100%);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-energia:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+/* Classes ativas para cada nível */
+.btn-energia.ativa-baixa {
+  filter: grayscale(0%);
+  opacity: 1;
+  border-color: var(--cor-falha);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.btn-energia.ativa-media {
+  filter: grayscale(0%);
+  opacity: 1;
+  border-color: var(--cor-alerta);
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.3);
+}
+
+.btn-energia.ativa-alta {
+  filter: grayscale(0%);
+  opacity: 1;
+  border-color: var(--cor-check);
+  box-shadow: 0 0 10px rgba(8, 150, 60, 0.3);
+}
+
+/* --- ESTILOS DO MONITOR DE SONO --- */
+.sono-inputs {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.input-grupo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.input-grupo label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.sono-inputs input[type="time"] {
+  background: var(--bg-body);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color-scheme: dark; /* Força o ícone de reloginho a ficar claro */
+}
+
+.sono-resultado {
+  text-align: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  border: 1px dashed var(--border-color);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sono-destaque {
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: block;
+  margin-top: 4px;
 }
