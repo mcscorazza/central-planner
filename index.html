@@ -15,11 +15,11 @@
           <h3>Consultas e Exames</h3>
           <ul class="lista-simples">
             <li>
-              <span style="color: var(--cor-saude)">•</span> 12/08 -
+              <span style="color: var(--cor-falha)">•</span> 12/08 -
               Oftalmologista
             </li>
             <li>
-              <span style="color: var(--cor-saude)">•</span> 20/08 - Exames de
+              <span style="color: var(--cor-falha)">•</span> 20/08 - Exames de
               Sangue
             </li>
           </ul>
@@ -78,57 +78,63 @@
             <!-- Itens serão gerados aqui -->
           </ul>
         </div>
-        <div class="widget">
+        <div class="widget collapsible" id="widget-projetos">
           <h3>Projetos Ativos</h3>
-          <ul class="lista-simples" style="margin-bottom: 15px">
-            <li
-              style="
-                border-bottom: 1px solid var(--border-color);
-                padding-bottom: 5px;
-              "
-            >
-              <strong>Fábrica Markdown</strong>
-            </li>
-            <li>[ ] Finalizar cap. Estruturas de Dados</li>
-            <li>[ ] Rodar conversão Pandoc</li>
-          </ul>
-          <ul class="lista-simples">
-            <li
-              style="
-                border-bottom: 1px solid var(--border-color);
-                padding-bottom: 5px;
-              "
-            >
-              <strong>Monolito Node/React</strong>
-            </li>
-            <li>[ ] Refatorar frontend p/ React</li>
-          </ul>
+          <div class="conteudo-colapsavel">
+            <ul class="lista-simples" style="margin-bottom: 15px">
+              <li
+                style="
+                  border-bottom: 1px solid var(--border-color);
+                  padding-bottom: 5px;
+                "
+              >
+                <strong>Fábrica Markdown</strong>
+              </li>
+              <li>[ ] Finalizar cap. Estruturas de Dados</li>
+              <li>[ ] Rodar conversão Pandoc</li>
+            </ul>
+            <ul class="lista-simples">
+              <li
+                style="
+                  border-bottom: 1px solid var(--border-color);
+                  padding-bottom: 5px;
+                "
+              >
+                <strong>Monolito Node/React</strong>
+              </li>
+              <li>[ ] Refatorar frontend p/ React</li>
+            </ul>
+          </div>
         </div>
       </section>
 
       <aside class="coluna painel-macro">
         <h2>Visão Macro</h2>
 
-        <div class="widget">
+        <div class="widget collapsible" id="widget-estudos">
           <h3>Estudos & Cursos</h3>
-          <ul class="lista-simples">
-            <li>
-              <strong style="color: var(--cor-estudo)">Roadmap DS/ML:</strong>
-              Estação 5/18
-            </li>
-            <li>
-              <strong style="color: var(--cor-estudo)">Curso Atual:</strong>
-              Python Avançado
-            </li>
-          </ul>
+          <div class="conteudo-colapsavel">
+            <ul class="lista-simples">
+              <li>
+                <strong style="color: var(--cor-neutro)">Roadmap DS/ML:</strong>
+                Estação 5/18
+              </li>
+              <li>
+                <strong style="color: var(--cor-neutro)">Curso Atual:</strong>
+                Python Avançado
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div class="widget">
+        <div class="widget collapsible" id="widget-livros">
           <h3>Estante de Livros</h3>
-          <ul class="lista-simples">
-            <li>📖 <strong>Lendo:</strong> Hábitos Atômicos (45%)</li>
-            <li>📚 <strong>Fila:</strong> Clean Code</li>
-          </ul>
+          <div class="conteudo-colapsavel">
+            <ul class="lista-simples">
+              <li>📖 <strong>Lendo:</strong> Hábitos Atômicos (45%)</li>
+              <li>📚 <strong>Fila:</strong> Clean Code</li>
+            </ul>
+          </div>
         </div>
         <div class="widget financeiro">
           <div class="fin-header">
@@ -146,7 +152,7 @@
           </ul>
           <div class="fin-resumo">
             <span> Pending:</span>
-            <strong id="fin-total" style="color: var(--cor-saude)"
+            <strong id="fin-total" style="color: var(--cor-falha)"
               >R$ 0,00</strong
             >
           </div>
@@ -169,10 +175,12 @@
 
         <label>Categoria:</label>
         <select id="select-cor">
-          <option value="cor-estudo">🟦 Estudos (DS/ML)</option>
-          <option value="cor-dev">🟩 Desenvolvimento (Node/React)</option>
-          <option value="cor-conteudo">🟨 Produção de Conteúdo</option>
-          <option value="cor-saude">🟥 Saúde e Burocracia</option>
+          <option value="cor-projeto">🟦 Projeto</option>
+          <option value="cor-reuniao">🟧 Reunião</option>
+          <option value="cor-leitura">🟩 Leitura</option>
+          <option value="cor-externo">🟪 Externo</option>
+          <option value="cor-estudo">🟨 Cursos Online</option>
+          <option value="cor-evento">🟥 Eventos</option>
         </select>
 
         <label>Duração:</label>
@@ -200,12 +208,7 @@
         <h3>Adicionar Conta</h3>
 
         <label>Descrição:</label>
-        <input
-          type="text"
-          id="fin-input-nome"
-          required
-          placeholder="Ex: Internet Fibra"
-        />
+        <input type="text" id="fin-input-nome" required />
 
         <label>Vencimento:</label>
         <input
@@ -244,7 +247,7 @@
 
     <!-- Modal de Confirmação (Zerar o Dia) -->
     <dialog id="modal-confirmacao" class="modal">
-      <h3 style="color: var(--cor-saude)">Limpar Agenda</h3>
+      <h3 style="color: var(--cor-falha)">Limpar Agenda</h3>
       <p style="color: var(--text-muted); margin-top: 10px; line-height: 1.5">
         Tem certeza que deseja apagar todos os blocos de tempo agendados para
         hoje? Esta ação não pode ser desfeita.
@@ -254,7 +257,7 @@
         <button
           type="button"
           id="btn-confirmar-limpeza"
-          style="background-color: var(--cor-saude); color: #fff"
+          style="background-color: var(--cor-falha); color: #fff"
         >
           Limpar Tudo
         </button>

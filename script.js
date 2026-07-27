@@ -27,7 +27,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Permite fechar o spotlight apertando ESC 
 spotlight.addEventListener('click', (e) => {
   const dialogDimensions = spotlight.getBoundingClientRect()
   if (
@@ -42,7 +41,6 @@ spotlight.addEventListener('click', (e) => {
 
 spotlightInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && spotlightInput.value.trim() !== '') {
-    // Ao dar enter, adiciona direto no Bullet Journal
     adicionarItemBuJo(spotlightInput.value.trim());
     spotlightInput.value = '';
     spotlight.close();
@@ -54,7 +52,6 @@ const modal = document.getElementById('modal-tarefa');
 const formTarefa = document.getElementById('form-tarefa');
 const grade = document.getElementById('grade-horarios');
 
-// Varrer das 08:00 até as 19:30 (passos de 0.5 = 30 min)
 function inicializarGrade() {
   grade.innerHTML = '';
   for (let horaDec = 8; horaDec < 20; horaDec += 0.5) {
@@ -189,16 +186,15 @@ document.getElementById('btn-cancelar-limpeza').addEventListener('click', () => 
 });
 
 document.getElementById('btn-confirmar-limpeza').addEventListener('click', () => {
-  timeboxState = {}; // Zera o estado na memória
-  salvarTimebox();   // Atualiza o localStorage apagando tudo
-  inicializarGrade(); // Refaz a grade de horários limpa na tela
+  timeboxState = {};
+  salvarTimebox();
+  inicializarGrade();
   modalConfirmacao.close();
 });
 
 // --- LÓGICA DO BULLET JOURNAL (BuJo) ---
 const bujoList = document.getElementById('bujo-list');
 
-// Adicionado o parametro 'aoCarregar' para não re-salvar os itens na hora de ler o banco
 function adicionarItemBuJo(texto, estado = 'pendente', aoCarregar = false) {
   const li = document.createElement('li');
   li.className = `bujo-item ${estado}`;
@@ -217,17 +213,16 @@ function adicionarItemBuJo(texto, estado = 'pendente', aoCarregar = false) {
   const bullet = li.querySelector('.bujo-bullet');
   bullet.addEventListener('click', () => ciclarEstadoBuJo(li, bullet));
 
-  /* Lógica para excluir o item do BuJo */
   const btnDeletar = li.querySelector('.bujo-deletar');
   btnDeletar.addEventListener('click', () => {
-    li.remove(); // Remove do HTML
-    salvarBuJo(); // Pede pro banco atualizar a lista sem esse item
+    li.remove();
+    salvarBuJo();
   });
 
   if (aoCarregar) {
-    bujoList.appendChild(li); // Mantém a ordem salva na leitura
+    bujoList.appendChild(li);
   } else {
-    bujoList.prepend(li); // Novas tarefas via Spotlight entram no topo
+    bujoList.prepend(li);
     salvarBuJo();
   }
 }
@@ -338,9 +333,9 @@ function renderizarFinanceiro() {
   // Atualiza o total
   document.getElementById('fin-total').innerText = `R$ ${totalPendente.toFixed(2).replace('.', ',')}`;
   if (totalPendente === 0) {
-    document.getElementById('fin-total').style.color = 'var(--cor-dev)';
+    document.getElementById('fin-total').style.color = 'var(--cor-check)';
   } else {
-    document.getElementById('fin-total').style.color = 'var(--cor-saude)';
+    document.getElementById('fin-total').style.color = 'var(--cor-falha)';
   }
 }
 
@@ -381,3 +376,27 @@ formFin.addEventListener('submit', () => {
 });
 
 renderizarFinanceiro();
+
+// --- LÓGICA DE COLAPSAR WIDGETS ---
+
+// Recupera o estado salvo no navegador (quais estão abertos/fechados)
+const widgetsFechados = JSON.parse(localStorage.getItem('widgetsFechados')) || {};
+
+document.querySelectorAll('.widget.collapsible').forEach(widget => {
+  const header = widget.querySelector('h3');
+  const widgetId = widget.id;
+
+  // Se estiver salvo como fechado no localStorage, já aplica a classe ao carregar
+  if (widgetsFechados[widgetId]) {
+    widget.classList.add('collapsed');
+  }
+
+  // Evento de clique para abrir/fechar
+  header.addEventListener('click', () => {
+    widget.classList.toggle('collapsed');
+
+    // Atualiza o estado no objeto e salva no localStorage
+    widgetsFechados[widgetId] = widget.classList.contains('collapsed');
+    localStorage.setItem('widgetsFechados', JSON.stringify(widgetsFechados));
+  });
+});
