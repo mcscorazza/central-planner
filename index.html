@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Pessoal</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="dashboard-grid">
+      <!-- COLUNA 1 -->
+      <aside class="coluna painel-saude">
+        <h2>Saúde & Desempenho</h2>
+        <div class="widget">
+          <h3>Consultas e Exames</h3>
+          <ul class="lista-simples">
+            <li>
+              <span style="color: var(--cor-saude)">•</span> 12/08 -
+              Oftalmologista
+            </li>
+            <li>
+              <span style="color: var(--cor-saude)">•</span> 20/08 - Exames de
+              Sangue
+            </li>
+          </ul>
+        </div>
+        <div class="widget">
+          <h3>Tracker de Hábitos</h3>
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 0.9rem;
+              font-style: italic;
+            "
+          >
+            Em breve...
+          </p>
+        </div>
+      </aside>
+
+      <!-- COLUNA 2: O FOCO PRINCIPAL DA APLICAÇÃO -->
+      <section class="coluna painel-foco">
+        <h2>Gestão do Dia</h2>
+        <div class="widget timeboxing">
+          <div class="timebox-header">
+            <h3>Timeboxing Diário</h3>
+            <button
+              id="btn-limpar-dia"
+              class="btn-limpar-dia"
+              title="Limpar todos os blocos"
+            >
+              ✖ Limpar Dia
+            </button>
+          </div>
+          <div id="grade-horarios" class="timebox-container">
+            <!-- Gerado dinamicamente via Javascript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- COLUNA 3 -->
+      <section class="coluna painel-projetos">
+        <h2>Projects & Tasks</h2>
+        <div class="widget rapid-log">
+          <h3>
+            BuJo List
+            <small
+              style="
+                font-size: 0.7rem;
+                color: var(--text-muted);
+                float: right;
+                padding-top: 4px;
+              "
+              >Ctrl+K to new entry</small
+            >
+          </h3>
+          <ul id="bujo-list" class="bujo-lista">
+            <!-- Itens serão gerados aqui -->
+          </ul>
+        </div>
+        <div class="widget">
+          <h3>Projetos Ativos</h3>
+          <ul class="lista-simples" style="margin-bottom: 15px">
+            <li
+              style="
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 5px;
+              "
+            >
+              <strong>Fábrica Markdown</strong>
+            </li>
+            <li>[ ] Finalizar cap. Estruturas de Dados</li>
+            <li>[ ] Rodar conversão Pandoc</li>
+          </ul>
+          <ul class="lista-simples">
+            <li
+              style="
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 5px;
+              "
+            >
+              <strong>Monolito Node/React</strong>
+            </li>
+            <li>[ ] Refatorar frontend p/ React</li>
+          </ul>
+        </div>
+      </section>
+
+      <aside class="coluna painel-macro">
+        <h2>Visão Macro</h2>
+
+        <div class="widget">
+          <h3>Estudos & Cursos</h3>
+          <ul class="lista-simples">
+            <li>
+              <strong style="color: var(--cor-estudo)">Roadmap DS/ML:</strong>
+              Estação 5/18
+            </li>
+            <li>
+              <strong style="color: var(--cor-estudo)">Curso Atual:</strong>
+              Python Avançado
+            </li>
+          </ul>
+        </div>
+
+        <div class="widget">
+          <h3>Estante de Livros</h3>
+          <ul class="lista-simples">
+            <li>📖 <strong>Lendo:</strong> Hábitos Atômicos (45%)</li>
+            <li>📚 <strong>Fila:</strong> Clean Code</li>
+          </ul>
+        </div>
+        <div class="widget financeiro">
+          <div class="fin-header">
+            <h3>Finance Tracker</h3>
+            <button
+              id="btn-nova-conta"
+              class="btn-icon"
+              title="Adicionar Conta"
+            >
+              +
+            </button>
+          </div>
+          <ul id="lista-financeira" class="fin-lista">
+            <!-- Contas serão geradas aqui -->
+          </ul>
+          <div class="fin-resumo">
+            <span> Pending:</span>
+            <strong id="fin-total" style="color: var(--cor-saude)"
+              >R$ 0,00</strong
+            >
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Modal do Timeboxing -->
+    <dialog id="modal-tarefa" class="modal">
+      <form id="form-tarefa" method="dialog">
+        <h3>Agendar Bloco (<span id="modal-hora-display"></span>)</h3>
+
+        <label>Tarefa:</label>
+        <input
+          type="text"
+          id="input-titulo"
+          required
+          placeholder="Ex: Escrever capítulo .MD"
+        />
+
+        <label>Categoria:</label>
+        <select id="select-cor">
+          <option value="cor-estudo">🟦 Estudos (DS/ML)</option>
+          <option value="cor-dev">🟩 Desenvolvimento (Node/React)</option>
+          <option value="cor-conteudo">🟨 Produção de Conteúdo</option>
+          <option value="cor-saude">🟥 Saúde e Burocracia</option>
+        </select>
+
+        <label>Duração:</label>
+        <select id="select-duracao">
+          <option value="1">30 minutos (1 bloco)</option>
+          <option value="2">1 hora (2 blocos)</option>
+          <option value="3">1 hora e meia (3 blocos)</option>
+          <option value="4">2 horas (4 blocos)</option>
+          <option value="5">2 horas e meia (5 blocos)</option>
+          <option value="6">3 horas (6 blocos)</option>
+        </select>
+
+        <input type="hidden" id="input-hora-id" />
+
+        <div class="modal-botoes">
+          <button type="button" id="btn-cancelar">Cancelar</button>
+          <button type="button" id="btn-limpar">Limpar Bloco</button>
+          <button type="submit" id="btn-salvar">Salvar Bloco</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="modal-financeiro" class="modal">
+      <form id="form-financeiro" method="dialog">
+        <h3>Adicionar Conta</h3>
+
+        <label>Descrição:</label>
+        <input
+          type="text"
+          id="fin-input-nome"
+          required
+          placeholder="Ex: Internet Fibra"
+        />
+
+        <label>Vencimento:</label>
+        <input
+          type="text"
+          id="fin-input-vencimento"
+          required
+          placeholder="Ex: Hoje, 15/08, etc"
+        />
+
+        <label>Valor (R$):</label>
+        <input
+          type="number"
+          id="fin-input-valor"
+          step="0.01"
+          min="0"
+          required
+          placeholder="Ex: 150.00"
+        />
+
+        <div class="modal-botoes">
+          <button type="button" id="btn-cancelar-fin">Cancelar</button>
+          <button type="submit" id="btn-salvar-fin">Adicionar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Modal Spotlight do Rapid Logging -->
+    <dialog id="spotlight-modal" class="spotlight">
+      <input
+        type="text"
+        id="spotlight-input"
+        placeholder="O que está na sua mente? (Aperte Enter)"
+        autocomplete="off"
+      />
+    </dialog>
+
+    <!-- Modal de Confirmação (Zerar o Dia) -->
+    <dialog id="modal-confirmacao" class="modal">
+      <h3 style="color: var(--cor-saude)">Limpar Agenda</h3>
+      <p style="color: var(--text-muted); margin-top: 10px; line-height: 1.5">
+        Tem certeza que deseja apagar todos os blocos de tempo agendados para
+        hoje? Esta ação não pode ser desfeita.
+      </p>
+      <div class="modal-botoes">
+        <button type="button" id="btn-cancelar-limpeza">Cancelar</button>
+        <button
+          type="button"
+          id="btn-confirmar-limpeza"
+          style="background-color: var(--cor-saude); color: #fff"
+        >
+          Limpar Tudo
+        </button>
+      </div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
