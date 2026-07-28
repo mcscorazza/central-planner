@@ -41,7 +41,7 @@ export async function carregarTimebox() {
 
 function inicializarGrade() {
   grade.innerHTML = '';
-  for (let horaDec = 8; horaDec < 20; horaDec += 0.5) {
+  for (let horaDec = 5; horaDec < 20; horaDec += 0.5) {
     const h = Math.floor(horaDec);
     const m = (horaDec % 1 === 0) ? '00' : '30';
     const horaFormatada = `${h.toString().padStart(2, '0')}:${m}`;
@@ -86,12 +86,12 @@ function aplicarBlocoVisual(idStr, titulo, corSelecionada, duracao) {
     if (proxLinha) proxLinha.style.display = 'none';
   }
 
-  const novaAltura = (32 * duracao) + (4 * (duracao - 1)); 
+  const novaAltura = (28 * duracao) + (2 * (duracao - 1)); 
   caixa.style.height = `${novaAltura}px`;
   caixa.dataset.duracaoAtiva = duracao;
 
   document.getElementById(`texto-${idStr}`).innerText = titulo;
-  document.getElementById(`texto-${idStr}`).style.color = '#ffffff';
+  document.getElementById(`texto-${idStr}`).style.color = 'var(--cor-muted})';
   caixa.style.backgroundColor = `var(--${corSelecionada})`;
   caixa.style.border = "none";
 }
