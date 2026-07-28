@@ -1010,22 +1010,36 @@ body {
   cursor: not-allowed;
 }
 
+/* =========================================
+   RESPONSIVIDADE: CELULARES E TABLETS
+========================================= */
 @media (max-width: 850px) {
+  
+  html, body {
+    height: auto !important;
+    overflow: auto !important; 
+  }
 
   .dashboard-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
-  .widget {
-    width: 100% !important;
-    margin: 0 !important;
+  
+  .coluna {
+    height: auto !important;
+    overflow: visible !important;
   }
 
-  button,
-  .btn-nova-conta,
-  .bujo-bullet,
-  .check-dia {
-    min-height: 35px;
+  .widget, 
+  .widget.timeboxing, 
+  .widget.rapid-log {
+    flex: none !important;
+    height: auto !important;
+    min-height: 250px; 
+    overflow: visible !important;
+    margin-bottom: 8px; 
   }
 }
