@@ -1029,13 +1029,13 @@ body {
     flex-direction: column !important;
     height: auto !important;
     overflow: visible !important;
+    margin-bottom: 75px;
   }
 
   
   .coluna {
     height: auto !important;
     overflow: visible !important;
-    margin-bottom: 60px;
   }
 
   .widget, 
