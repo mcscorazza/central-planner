@@ -82,7 +82,17 @@ function renderizarItemBuJo(id, texto, estado, noTopo = false) {
 export function iniciarEventosBuJo() {
     const spotlightInput = document.getElementById('spotlight-input');
     const spotlight = document.getElementById('spotlight-modal');
+    const btnMobile = document.getElementById('btn-mobile-spotlight'); // <--- AQUI
 
+  // Evento do botão flutuante no celular
+  if (btnMobile) {
+    btnMobile.addEventListener('click', () => {
+      spotlight.showModal();
+      spotlightInput.focus();
+    });
+  }
+
+    
     // 1. O atalho Ctrl+K para abrir o modal
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
