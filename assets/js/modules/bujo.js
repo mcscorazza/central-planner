@@ -115,12 +115,17 @@ export function iniciarEventosBuJo() {
         }
     });
 
-    // 3. Adicionar a tarefa ao pressionar Enter
-    spotlightInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && spotlightInput.value.trim() !== '') {
-            adicionarItemBuJo(spotlightInput.value.trim());
-            spotlightInput.value = '';
-            spotlight.close();
-        }
-    });
+      // 3. Adicionar a tarefa ao pressionar Enter (Ajustado para Celular)
+  spotlightInput.addEventListener('keyup', (e) => {
+    // e.keyCode === 13 é um fallback essencial para teclados virtuais
+    if ((e.key === 'Enter' || e.keyCode === 13) && spotlightInput.value.trim() !== '') {
+      
+      adicionarItemBuJo(spotlightInput.value.trim());
+      spotlightInput.value = '';
+      spotlight.close();
+      
+      // Remove o foco do input. Isso faz o teclado virtual do celular descer!
+      spotlightInput.blur(); 
+    }
+  });
 }
