@@ -1035,6 +1035,7 @@ body {
   .coluna {
     height: auto !important;
     overflow: visible !important;
+    margin-bottom: 60px;
   }
 
   .widget, 
@@ -1044,7 +1045,7 @@ body {
     height: auto !important;
     min-height: 30px; 
     overflow: visible !important;
-    margin-bottom: 40px; 
+    margin-bottom: 8px; 
   }
 
   /* Faz o botão flutuante aparecer apenas no celular */
