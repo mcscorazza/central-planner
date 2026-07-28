@@ -982,7 +982,8 @@ body {
   font-size: 0.85rem;
   margin-top: 10px;
   text-align: center;
-  min-height: 20px; /* Mantém o espaço mesmo quando vazio para não dar "pulo" na tela */
+  min-height: 20px;
+  /* Mantém o espaço mesmo quando vazio para não dar "pulo" na tela */
 }
 
 .btn-submit-login {
@@ -1007,4 +1008,24 @@ body {
   background-color: var(--border-color);
   color: var(--text-muted);
   cursor: not-allowed;
+}
+
+@media (max-width: 850px) {
+
+  .dashboard-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .widget {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  button,
+  .btn-nova-conta,
+  .bujo-bullet,
+  .check-dia {
+    min-height: 35px;
+  }
 }
