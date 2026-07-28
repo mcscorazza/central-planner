@@ -1,6 +1,6 @@
 :root {
   --cor-projeto: #3b82f688;
-  --cor-reunião: #e6490088;
+  --cor-reuniao: #e6490088;
   --cor-leitura: #22c55e88;
   --cor-externo: #8d00df88;
   --cor-estudo: #eab30888;
@@ -950,4 +950,59 @@ body {
   font-weight: bold;
   display: block;
   margin-top: 4px;
+}
+
+/* --- ESTILOS DE AUTENTICAÇÃO --- */
+.hidden {
+  display: none !important;
+}
+
+.login-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-body);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.login-modal {
+  width: 350px;
+  /* Ele herda automaticamente as bordas e cores da sua classe .modal existente */
+}
+
+.mensagem-erro {
+  color: var(--cor-falha);
+  font-size: 0.85rem;
+  margin-top: 10px;
+  text-align: center;
+  min-height: 20px; /* Mantém o espaço mesmo quando vazio para não dar "pulo" na tela */
+}
+
+.btn-submit-login {
+  width: 100%;
+  margin-top: 20px;
+  background-color: var(--cor-check);
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: filter 0.2s;
+}
+
+.btn-submit-login:hover {
+  filter: brightness(1.1);
+}
+
+.btn-submit-login:disabled {
+  background-color: var(--border-color);
+  color: var(--text-muted);
+  cursor: not-allowed;
 }

@@ -192,10 +192,47 @@ document.getElementById('btn-confirmar-limpeza').addEventListener('click', () =>
   modalConfirmacao.close();
 });
 
-// --- LÓGICA DO BULLET JOURNAL (BuJo) ---
+// ==========================================
+// --- LÓGICA DO BULLET JOURNAL (SUPABASE) ---
+// ==========================================
+
 const bujoList = document.getElementById('bujo-list');
 
-function adicionarItemBuJo(texto, estado = 'pendente', aoCarregar = false) {
+// 1. Busca os itens no banco e desenha na tela
+async function carregarBuJo() {
+  const { data, error } = await supabaseClient
+    .from('bujo_items')
+    .select('*')
+    .order('created_at', { ascending: false }); // Os mais recentes no topo
+
+  if (error) {
+    console.error('Erro ao carregar BuJo:', error);
+    return;
+  }
+
+  bujoList.innerHTML = ''; // Limpa a lista antes de desenhar
+  data.forEach(item => renderizarItemBuJo(item.id, item.texto, item.estado));
+}
+
+// 2. Insere um novo item no banco
+async function adicionarItemBuJo(texto) {
+  // A UI não trava: renderiza um "loading" ou só espera a promessa resolver
+  const { data, error } = await supabaseClient
+    .from('bujo_items')
+    .insert([{ texto: texto, estado: 'pendente' }])
+    .select(); // Retorna o item criado com o ID gerado pelo banco
+
+  if (error) {
+    console.error('Erro ao salvar no BuJo:', error);
+    return;
+  }
+
+  // Desenha no topo da lista
+  renderizarItemBuJo(data[0].id, data[0].texto, data[0].estado, true);
+}
+
+// 3. Renderiza o HTML do item e anexa os eventos de clique conectados ao banco
+function renderizarItemBuJo(id, texto, estado, noTopo = false) {
   const li = document.createElement('li');
   li.className = `bujo-item ${estado}`;
 
@@ -205,69 +242,58 @@ function adicionarItemBuJo(texto, estado = 'pendente', aoCarregar = false) {
   if (estado === 'nota') char = '-';
 
   li.innerHTML = `
-                <span class="bujo-bullet" data-estado="${estado}">${char}</span>
-                <span class="bujo-texto">${texto}</span>
-                <span class="bujo-deletar" title="Excluir tarefa">✖</span>
-            `;
+    <span class="bujo-bullet" data-estado="${estado}">${char}</span>
+    <span class="bujo-texto">${texto}</span>
+    <span class="bujo-deletar" title="Excluir tarefa">✖</span>
+  `;
 
+  // --- Evento: Mudar Estado (Update) ---
   const bullet = li.querySelector('.bujo-bullet');
-  bullet.addEventListener('click', () => ciclarEstadoBuJo(li, bullet));
+  bullet.addEventListener('click', async () => {
+    const estadoAtual = bullet.dataset.estado;
+    let novoEstado = 'pendente';
+    let novoChar = '•';
 
-  const btnDeletar = li.querySelector('.bujo-deletar');
-  btnDeletar.addEventListener('click', () => {
-    li.remove();
-    salvarBuJo();
+    if (estadoAtual === 'pendente') { novoEstado = 'concluido'; novoChar = '✓'; }
+    else if (estadoAtual === 'concluido') { novoEstado = 'migrado'; novoChar = '>'; }
+    else if (estadoAtual === 'migrado') { novoEstado = 'nota'; novoChar = '-'; }
+
+    // Atualiza a tela imediatamente (Otimista)
+    bullet.dataset.estado = novoEstado;
+    bullet.innerText = novoChar;
+    li.className = `bujo-item ${novoEstado}`;
+
+    // Atualiza no banco em background
+    await supabaseClient
+      .from('bujo_items')
+      .update({ estado: novoEstado })
+      .eq('id', id);
   });
 
-  if (aoCarregar) {
-    bujoList.appendChild(li);
-  } else {
+  // --- Evento: Deletar (Delete) ---
+  const btnDeletar = li.querySelector('.bujo-deletar');
+  btnDeletar.addEventListener('click', async () => {
+    li.remove(); // Remove da tela na hora
+    await supabaseClient
+      .from('bujo_items')
+      .delete()
+      .eq('id', id);
+  });
+
+  if (noTopo) {
     bujoList.prepend(li);
-    salvarBuJo();
-  }
-}
-
-function ciclarEstadoBuJo(item, bullet) {
-  const estadoAtual = bullet.dataset.estado;
-
-  if (estadoAtual === 'pendente') {
-    bullet.dataset.estado = 'concluido';
-    bullet.innerText = '✓';
-    item.className = 'bujo-item concluido';
-  } else if (estadoAtual === 'concluido') {
-    bullet.dataset.estado = 'migrado';
-    bullet.innerText = '>';
-    item.className = 'bujo-item migrado';
-  } else if (estadoAtual === 'migrado') {
-    bullet.dataset.estado = 'nota';
-    bullet.innerText = '-';
-    item.className = 'bujo-item nota';
   } else {
-    bullet.dataset.estado = 'pendente';
-    bullet.innerText = '•';
-    item.className = 'bujo-item pendente';
+    bujoList.appendChild(li);
   }
-  salvarBuJo(); // Atualiza o localStorage no clique
 }
+
+// ==========================================
+
+
 
 // --- INICIALIZAÇÃO DA TELA (LOADING) ---
 inicializarGrade(); // 1. Monta a grade vazia de base
 
-// 2. Carrega o BuJo salvo ou preenche com mock se for o primeiro acesso
-const bujoSalvo = JSON.parse(localStorage.getItem('bujoState'));
-if (bujoSalvo && bujoSalvo.length > 0) {
-  bujoSalvo.forEach(item => {
-    adicionarItemBuJo(item.texto, item.estado, true);
-  });
-} else {
-  // Mock Inicial apenas para demonstração na 1ª vez
-  adicionarItemBuJo('Revisar queries do PostgreSQL');
-  adicionarItemBuJo('Planejar dashboard de Hábitos');
-  setTimeout(() => {
-    const bullet = bujoList.querySelector('.bujo-bullet');
-    if (bullet) ciclarEstadoBuJo(bullet.parentElement, bullet);
-  }, 500);
-}
 
 // 3. Pinta os blocos do Timeboxing por cima da grade gerada
 for (const [idStr, dados] of Object.entries(timeboxState)) {
@@ -833,3 +859,69 @@ btnSalvarSono.addEventListener('click', () => {
 
 // Renderiza ao iniciar a página
 renderizarSono();
+
+// ==========================================
+// --- LÓGICA DE AUTENTICAÇÃO (SUPABASE) ---
+// ==========================================
+
+const supabaseUrl = 'https://capjoowauuuavepyiaom.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhcGpvb3dhdXV1YXZlcHlpYW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTY4NjgsImV4cCI6MjA5MTc3Mjg2OH0.BSDGOfVwmkpjTRV29x63kWl-ZeDwCY25hUSdTi4NXNU'; 
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+const telaLogin = document.getElementById('tela-login');
+const dashboardApp = document.getElementById('dashboard-app');
+const formLogin = document.getElementById('form-login');
+const erroLogin = document.getElementById('login-erro');
+const btnEntrar = document.getElementById('btn-entrar');
+
+// 1. Verifica se já existe uma sessão ativa ao abrir a página
+async function verificarSessao() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  
+  if (session) {
+    mostrarDashboard();
+  } else {
+    mostrarLogin();
+  }
+}
+
+// 2. Alterna as telas
+function mostrarDashboard() {
+  telaLogin.classList.add('hidden');
+  dashboardApp.classList.remove('hidden');
+}
+
+function mostrarLogin() {
+  dashboardApp.classList.add('hidden');
+  telaLogin.classList.remove('hidden');
+}
+
+// 3. Processa o formulário de login
+formLogin.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  // Limpa erros antigos e bloqueia o botão para evitar duplos cliques
+  erroLogin.innerText = '';
+  btnEntrar.disabled = true;
+  btnEntrar.innerText = 'Autenticando...';
+
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-senha').value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password,
+  });
+
+  if (error) {
+    erroLogin.innerText = 'E-mail ou senha incorretos.';
+    btnEntrar.disabled = false;
+    btnEntrar.innerText = 'Entrar';
+  } else {
+    // Sucesso! A sessão é salva automaticamente no LocalStorage pelo Supabase
+    mostrarDashboard();
+  }
+});
+
+// 4. Executa a checagem ao carregar a página
+verificarSessao();

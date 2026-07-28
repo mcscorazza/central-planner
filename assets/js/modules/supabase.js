@@ -1,0 +1,3 @@
+const supabaseUrl = 'https://capjoowauuuavepyiaom.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhcGpvb3dhdXV1YXZlcHlpYW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxOTY4NjgsImV4cCI6MjA5MTc3Mjg2OH0.BSDGOfVwmkpjTRV29x63kWl-ZeDwCY25hUSdTi4NXNU'; 
+export const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
