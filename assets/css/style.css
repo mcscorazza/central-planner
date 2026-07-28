@@ -917,6 +917,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 0;
 }
 
 .input-grupo label {
@@ -934,7 +935,7 @@ body {
   font-family: inherit;
   font-size: 0.9rem;
   color-scheme: dark;
-  /* Força o ícone de reloginho a ficar claro */
+  width: 100%;
 }
 
 .sono-resultado {
