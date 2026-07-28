@@ -6,7 +6,6 @@ import { supabaseClient } from './supabase.js';
 
 const bujoList = document.getElementById('bujo-list');
 
-// Exportamos essa função para que o main.js possa chamá-la após o login
 export async function carregarBuJo() {
     const { data, error } = await supabaseClient
         .from('bujo_items')
@@ -80,11 +79,33 @@ function renderizarItemBuJo(id, texto, estado, noTopo = false) {
     }
 }
 
-// Inicializa os atalhos exclusivos do BuJo (Ctrl+K)
 export function iniciarEventosBuJo() {
     const spotlightInput = document.getElementById('spotlight-input');
     const spotlight = document.getElementById('spotlight-modal');
 
+    // 1. O atalho Ctrl+K para abrir o modal
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            spotlight.showModal();
+            spotlightInput.focus(); // Foca no campo de texto automaticamente
+        }
+    });
+
+    // 2. Fechar ao clicar fora do modal (no espaço escuro)
+    spotlight.addEventListener('click', (e) => {
+        const dialogDimensions = spotlight.getBoundingClientRect();
+        if (
+            e.clientX < dialogDimensions.left ||
+            e.clientX > dialogDimensions.right ||
+            e.clientY < dialogDimensions.top ||
+            e.clientY > dialogDimensions.bottom
+        ) {
+            spotlight.close();
+        }
+    });
+
+    // 3. Adicionar a tarefa ao pressionar Enter
     spotlightInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && spotlightInput.value.trim() !== '') {
             adicionarItemBuJo(spotlightInput.value.trim());
