@@ -1010,6 +1010,10 @@ body {
   cursor: not-allowed;
 }
 
+.fab-mobile {
+  display: none; 
+}
+  
 /* =========================================
    RESPONSIVIDADE: CELULARES E TABLETS
 ========================================= */
@@ -1042,4 +1046,33 @@ body {
     overflow: visible !important;
     margin-bottom: 8px; 
   }
+
+  /* Faz o botão flutuante aparecer apenas no celular */
+  .fab-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    /* Use a variável da sua cor de destaque (ex: cor-projeto ou bg-panel) */
+    background-color: var(--cor-check, #28a745); 
+    color: white;
+    font-size: 32px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 9999; /* Garante que fique por cima de tudo */
+    cursor: pointer;
+    line-height: 1;
+    padding-bottom: 4px; /* Ajuste fino pra centralizar o "+" */
+  }
+  
+  .fab-mobile:active {
+    transform: scale(0.95); /* Efeitinho de clique */
+  }
+
+  
 }
