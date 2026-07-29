@@ -625,7 +625,6 @@ body {
   gap: 8px;
 }
 
-/* Setinha do acordeon */
 .projeto-titulo::before {
   content: '▼';
   font-size: 0.6rem;
@@ -654,7 +653,6 @@ body {
   background: rgba(8, 150, 60, 0.1);
 }
 
-/* Lista de tarefas colapsável */
 .lista-tarefas {
   list-style: none;
   padding: 0;
@@ -723,9 +721,18 @@ body {
 
 
 /* --- ESTILOS DO TRACKER DE HÁBITOS --- */
+
+.card-habitos {
+  flex: none;
+  height: auto;
+  overflow: visible;
+  min-height: fit-content;
+}
+
 .lista-habitos {
   display: flex;
   flex-direction: column;
+  height: auto;
   gap: 8px;
 }
 
@@ -1012,17 +1019,18 @@ body {
 }
 
 .fab-mobile {
-  display: none; 
+  display: none;
 }
-  
+
 /* =========================================
    RESPONSIVIDADE: CELULARES E TABLETS
 ========================================= */
 @media (max-width: 850px) {
-  
-  html, body {
+
+  html,
+  body {
     height: auto !important;
-    overflow: auto !important; 
+    overflow: auto !important;
   }
 
   .dashboard-grid {
@@ -1033,20 +1041,20 @@ body {
     margin-bottom: 75px;
   }
 
-  
+
   .coluna {
     height: auto !important;
     overflow: visible !important;
   }
 
-  .widget, 
-  .widget.timeboxing, 
+  .widget,
+  .widget.timeboxing,
   .widget.rapid-log {
     flex: none !important;
     height: auto !important;
-    min-height: 30px; 
+    min-height: 30px;
     overflow: visible !important;
-    margin-bottom: 8px; 
+    margin-bottom: 8px;
   }
 
   /* Faz o botão flutuante aparecer apenas no celular */
@@ -1061,20 +1069,23 @@ body {
     height: 60px;
     border-radius: 50%;
     /* Use a variável da sua cor de destaque (ex: cor-projeto ou bg-panel) */
-    background-color: var(--cor-check, #28a745); 
+    background-color: var(--cor-check, #28a745);
     color: white;
     font-size: 32px;
     border: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    z-index: 9999; /* Garante que fique por cima de tudo */
+    z-index: 9999;
+    /* Garante que fique por cima de tudo */
     cursor: pointer;
     line-height: 1;
-    padding-bottom: 4px; /* Ajuste fino pra centralizar o "+" */
-  }
-  
-  .fab-mobile:active {
-    transform: scale(0.95); /* Efeitinho de clique */
+    padding-bottom: 4px;
+    /* Ajuste fino pra centralizar o "+" */
   }
 
-  
+  .fab-mobile:active {
+    transform: scale(0.95);
+    /* Efeitinho de clique */
+  }
+
+
 }

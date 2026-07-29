@@ -50,40 +50,9 @@
 
     <main id="dashboard-app" class="dashboard-grid hidden">
       <!-- COLUNA 1 -->
-      <aside class="coluna painel-saude">
-        
-        <!-- Widget de Consultas Dinâmico -->
-        <div class="widget">
-          <div
-            class="header-com-botao"
-            style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-bottom: 12px;
-            "
-          >
-            <h3 style="margin: 0">Doctor's Apoitment</h3>
-            <button
-              id="btn-nova-consulta"
-              class="btn-icon"
-              title="Agendar Consulta"
-            >
-              +
-            </button>
-          </div>
-          <ul
-            id="lista-consultas"
-            class="lista-simples"
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 6px;
-              margin-bottom: 0;
-            "
-          >
-            <!-- Itens gerados via JS -->
-          </ul>
+      <aside class="coluna">
+        <div style="height: 80px">
+          <img src="./assets/logo.png" height="80px" alt="Logo" />
         </div>
         <!-- Widget de Monitor de Sono -->
         <div class="widget" style="flex: 0 0 auto">
@@ -112,7 +81,8 @@
             <!-- Resultado gerado via JS -->
           </div>
         </div>
-        <!-- NOVO: Widget de Energia Diária -->
+
+        <!-- Widget de Energia Diária -->
         <div class="widget" style="flex: 0 0 auto">
           <h3 style="text-align: center; margin-bottom: 15px">Energy Level</h3>
           <div class="energia-container">
@@ -147,7 +117,8 @@
             How do you feeling today?
           </p>
         </div>
-        <div class="widget">
+
+        <div class="widget card-habitos">
           <div
             class="header-com-botao"
             style="
@@ -155,10 +126,20 @@
               justify-content: space-between;
               align-items: center;
               margin-bottom: 12px;
+              flex: 0 0 auto;
+              min-height: min-content;
             "
           >
             <h3 style="margin: 0">Habit's Tracker</h3>
-            <div style="display: flex; gap: 8px; align-items: center">
+            <div
+              style="
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                flex: 0 0 auto;
+                min-height: min-content;
+              "
+            >
               <button
                 id="btn-limpar-habitos"
                 class="btn-limpar-dia"
@@ -179,11 +160,44 @@
             <!-- Hábitos serão gerados dinamicamente aqui -->
           </div>
         </div>
+
+        <!-- Widget de Consultas Dinâmico -->
+        <div class="widget">
+          <div
+            class="header-com-botao"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 12px;
+            "
+          >
+            <h3 style="margin: 0">Doctor's Apoitment</h3>
+            <button
+              id="btn-nova-consulta"
+              class="btn-icon"
+              title="Agendar Consulta"
+            >
+              +
+            </button>
+          </div>
+          <ul
+            id="lista-consultas"
+            class="lista-simples"
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 6px;
+              margin-bottom: 0;
+            "
+          >
+            <!-- Itens gerados via JS -->
+          </ul>
+        </div>
       </aside>
 
       <!-- COLUNA 2: O FOCO PRINCIPAL DA APLICAÇÃO -->
       <section class="coluna painel-foco">
-        
         <div class="widget timeboxing">
           <div class="timebox-header">
             <h3>Timeboxing</h3>
@@ -250,33 +264,35 @@
       </section>
 
       <aside class="coluna painel-macro">
-        
-
+        <!-- Card de Cursos e Autodidata -->
         <div class="widget collapsible" id="widget-estudos">
           <h3>Courses & Self-studding</h3>
           <div class="conteudo-colapsavel">
             <ul class="lista-simples">
               <li>
-                <strong style="color: var(--cor-neutro)">Roadmap DS/ML:</strong>
-                Estação 5/18
-              </li>
-              <li>
-                <strong style="color: var(--cor-neutro)">Curso Atual:</strong>
-                Python Avançado
+                <strong style="color: var(--cor-neutro)"
+                  >🚧 Em contrução...</strong
+                >
               </li>
             </ul>
           </div>
         </div>
 
+        <!-- Card de Livros -->
         <div class="widget collapsible" id="widget-livros">
           <h3>Books</h3>
           <div class="conteudo-colapsavel">
             <ul class="lista-simples">
-              <li>📖 <strong>Lendo:</strong> Hábitos Atômicos (45%)</li>
-              <li>📚 <strong>Fila:</strong> Clean Code</li>
+              <li>
+                <strong style="color: var(--cor-neutro)"
+                  >🚧 Em contrução...</strong
+                >
+              </li>
             </ul>
           </div>
         </div>
+
+        <!-- Card Financeiro -->
         <div class="widget financeiro">
           <div class="fin-header">
             <h3>Finance Tracker</h3>
@@ -289,7 +305,7 @@
             </button>
           </div>
           <ul id="lista-financeira" class="fin-lista">
-            <!-- Contas serão geradas aqui -->
+            <!-- Lista dinâmica de Contas -->
           </ul>
           <div class="fin-resumo">
             <span> Pending:</span>
@@ -300,6 +316,8 @@
         </div>
       </aside>
     </main>
+
+    <!-- MODAIS -->
 
     <!-- Modal do Timeboxing -->
     <dialog id="modal-tarefa" class="modal">
@@ -476,8 +494,8 @@
         </div>
       </form>
     </dialog>
-<!-- Botão flutuante exclusivo para celular (Spotlight) -->
-<button id="btn-mobile-spotlight" class="fab-mobile">+</button>
+    <!-- Botão flutuante exclusivo para celular (Spotlight) -->
+    <button id="btn-mobile-spotlight" class="fab-mobile">+</button>
 
     <!-- <script src="script.js"></script> -->
   </body>
