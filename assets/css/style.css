@@ -39,7 +39,7 @@ body {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1.4fr 2.2fr 1.5fr 1.2fr;
+  grid-template-columns: 1fr 2.2fr 1.5fr 1fr;
   gap: 8px;
   height: 100vh;
   padding: 8px;
