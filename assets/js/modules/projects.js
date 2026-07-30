@@ -10,7 +10,8 @@ export async function carregarProjetos() {
   const { data, error } = await supabaseClient
     .from('dash_projetos')
     .select('*, dash_tarefas(*)')
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: true })
+    .order('concluida', { foreignTable: 'dash_tarefas', ascending: true });
 
   if (error) {
     console.error('Erro ao carregar projetos:', error);
@@ -28,7 +29,7 @@ function renderizarProjetos() {
   projetosAtivos.forEach(projeto => {
     const divItem = document.createElement('div');
     divItem.className = `projeto-item ${projeto.aberto ? '' : 'collapsed'}`;
-    
+
     // Cabeçalho do Projeto
     const divHeader = document.createElement('div');
     divHeader.className = 'projeto-header';
@@ -43,7 +44,7 @@ function renderizarProjetos() {
     // Acordeon e Banco de Dados (Exclusivo: abre um, fecha os outros)
     divHeader.querySelector('.projeto-titulo').addEventListener('click', async () => {
       const estavaAberto = projeto.aberto;
-      
+
       // Atualiza o visual e estado local
       projetosAtivos.forEach(p => p.aberto = false);
       if (!estavaAberto) projeto.aberto = true;
@@ -78,8 +79,14 @@ function renderizarProjetos() {
     const ulTarefas = document.createElement('ul');
     ulTarefas.className = 'lista-tarefas';
 
-    // Ordena as tarefas pela data de criação
-    const tarefasOrdenadas = projeto.dash_tarefas.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+    const tarefasOrdenadas = projeto.dash_tarefas.sort((a, b) => {
+      // Se uma está concluída e a outra não, a pendente (false/0) sobe e a concluída (true/1) desce
+      if (a.concluida !== b.concluida) {
+        return a.concluida - b.concluida;
+      }
+      // Se as duas tiverem o mesmo status, desempata pela data de criação
+      return new Date(a.created_at) - new Date(b.created_at);
+    });
 
     tarefasOrdenadas.forEach(tarefa => {
       const li = document.createElement('li');

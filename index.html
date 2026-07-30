@@ -265,16 +265,19 @@
 
       <aside class="coluna painel-macro">
         <!-- Card de Cursos e Autodidata -->
-        <div class="widget collapsible" id="widget-estudos">
-          <h3>Courses & Self-studding</h3>
-          <div class="conteudo-colapsavel">
-            <ul class="lista-simples">
-              <li>
-                <strong style="color: var(--cor-neutro)"
-                  >🚧 Em contrução...</strong
-                >
-              </li>
-            </ul>
+        <div
+          class="widget collapsible"
+          id="widget-cursos"
+          style="position: relative"
+        >
+          <h3>📚 Courses & Self-studying</h3>
+          <button id="btn-novo-curso" class="btn-add-roadmap">+ Roadmap</button>
+          <div
+            id="lista-cursos-container"
+            class="cursos-container"
+            style="margin-top: 12px"
+          >
+            <!-- Cursos renderizados via JS entrarão aqui -->
           </div>
         </div>
 
@@ -318,7 +321,6 @@
     </main>
 
     <!-- MODAIS -->
-
     <!-- Modal do Timeboxing -->
     <dialog id="modal-tarefa" class="modal">
       <form id="form-tarefa" method="dialog">
@@ -494,6 +496,7 @@
         </div>
       </form>
     </dialog>
+
     <!-- Botão flutuante exclusivo para celular (Spotlight) -->
     <button id="btn-mobile-spotlight" class="fab-mobile">+</button>
 

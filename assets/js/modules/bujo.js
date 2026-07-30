@@ -10,7 +10,7 @@ export async function carregarBuJo() {
     const { data, error } = await supabaseClient
         .from('bujo_items')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('estado', { ascending: false });
 
     if (error) return console.error(error);
     bujoList.innerHTML = '';
@@ -82,17 +82,17 @@ function renderizarItemBuJo(id, texto, estado, noTopo = false) {
 export function iniciarEventosBuJo() {
     const spotlightInput = document.getElementById('spotlight-input');
     const spotlight = document.getElementById('spotlight-modal');
-    const btnMobile = document.getElementById('btn-mobile-spotlight'); // <--- AQUI
+    const btnMobile = document.getElementById('btn-mobile-spotlight');
 
-  // Evento do botão flutuante no celular
-  if (btnMobile) {
-    btnMobile.addEventListener('click', () => {
-      spotlight.showModal();
-      spotlightInput.focus();
-    });
-  }
+    // Evento do botão flutuante no celular
+    if (btnMobile) {
+        btnMobile.addEventListener('click', () => {
+            spotlight.showModal();
+            spotlightInput.focus();
+        });
+    }
 
-    
+
     // 1. O atalho Ctrl+K para abrir o modal
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -115,17 +115,14 @@ export function iniciarEventosBuJo() {
         }
     });
 
-      // 3. Adicionar a tarefa ao pressionar Enter (Ajustado para Celular)
-  spotlightInput.addEventListener('keyup', (e) => {
-    // e.keyCode === 13 é um fallback essencial para teclados virtuais
-    if ((e.key === 'Enter' || e.keyCode === 13) && spotlightInput.value.trim() !== '') {
-      
-      adicionarItemBuJo(spotlightInput.value.trim());
-      spotlightInput.value = '';
-      spotlight.close();
-      
-      // Remove o foco do input. Isso faz o teclado virtual do celular descer!
-      spotlightInput.blur(); 
-    }
-  });
+    // 3. Adicionar a tarefa ao pressionar Enter (Ajustado para Celular)
+    spotlightInput.addEventListener('keyup', (e) => {
+        if ((e.key === 'Enter' || e.keyCode === 13) && spotlightInput.value.trim() !== '') {
+
+            adicionarItemBuJo(spotlightInput.value.trim());
+            spotlightInput.value = '';
+            spotlight.close();
+            spotlightInput.blur();
+        }
+    });
 }
