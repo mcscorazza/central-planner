@@ -21,28 +21,87 @@ export async function carregarFinanceiro() {
   renderizarFinanceiro();
 }
 
+function formatarTextoVencimento(dataStr) {
+  if (!dataStr) return 'Sem data';
+
+  let ano, mes, dia;
+  if (dataStr.includes('-')) {
+    [ano, mes, dia] = dataStr.split('-');
+  } else if (dataStr.includes('/')) {
+    [dia, mes, ano] = dataStr.split('/');
+  } else {
+    return dataStr;
+  }
+
+  const dataConta = new Date(ano, mes - 1, dia);
+  
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+
+  const amanha = new Date(hoje);
+  amanha.setDate(hoje.getDate() + 1);
+  
+  const ontem = new Date(hoje);
+  ontem.setDate(hoje.getDate() - 1);
+
+  const tempoConta = dataConta.getTime();
+  
+  if (tempoConta === hoje.getTime()) return 'Hoje';
+  if (tempoConta === amanha.getTime()) return 'Amanhã';
+  if (tempoConta === ontem.getTime()) return 'Ontem';
+
+  return `${dia.padStart(2, '0')}/${mes.padStart(2, '0')}/${ano}`;
+}
+
 function renderizarFinanceiro() {
   const lista = document.getElementById('lista-financeira');
   lista.innerHTML = '';
   let totalPendente = 0;
 
-  // Ordena: não pagas primeiro, pagas no final
-  const contasOrdenadas = [...contas].sort((a, b) => a.pago - b.pago);
+  const contasOrdenadas = [...contas].sort((a, b) => {
+    if (a.pago !== b.pago) {
+      return a.pago - b.pago; 
+    }
+
+    const converterParaData = (dataStr) => {
+      if (!dataStr) return 9999999999999;
+
+      if (dataStr.includes('-')) {
+        return new Date(dataStr).getTime();
+      }
+      
+      if (dataStr.includes('/')) {
+        const [dia, mes, ano] = dataStr.split('/');
+        return new Date(`${ano}-${mes}-${dia}`).getTime();
+      }
+      
+      return 9999999999999; 
+    };
+
+    const valorA = converterParaData(a.vencimento);
+    const valorB = converterParaData(b.vencimento);
+
+    // 2. Desempate: Menor data (mais próxima) fica no topo
+    return valorA - valorB;
+  });
 
   contasOrdenadas.forEach(conta => {
-    const li = document.createElement('li');
+const li = document.createElement('li');
     li.className = `fin-item ${conta.pago ? 'pago' : ''}`;
+    const textoVencimento = formatarTextoVencimento(conta.vencimento);
     
-    // O valor do banco de dados (NUMERIC) pode vir como string em requisições HTTP, então convertemos:
-    const valorFormatado = parseFloat(conta.valor).toFixed(2).replace('.', ',');
+    let estiloData = '';
+    if (!conta.pago && (textoVencimento === 'Hoje' || textoVencimento === 'Ontem' || new Date(conta.vencimento) < new Date())) {
+       estiloData = 'color: var(--cor-falha); font-weight: bold;';
+    }
 
     li.innerHTML = `
       <div class="fin-status" title="Clique para alterar o status"></div>
       <div class="fin-detalhes">
           <span class="fin-nome">${conta.nome}</span>
-          <span class="fin-vencimento">Vence: ${conta.vencimento}</span>
+          <span class="fin-vencimento" style="${estiloData}">Vence: ${textoVencimento}</span>
       </div>
-      <span class="fin-valor">R$ ${valorFormatado}</span>
+      <span class="fin-valor">R$ ${conta.valor.toFixed(2).replace('.', ',')}</span>
       <span class="fin-deletar" title="Excluir conta">✖</span>
     `;
 
