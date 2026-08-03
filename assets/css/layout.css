@@ -236,4 +236,22 @@ body {
   .fab-mobile:active {
     transform: scale(0.95);
   }
+
+  #coluna-ontem, 
+  #coluna-amanha {
+    display: none;
+  }
+
+  .timebox-dia.atual {
+    flex: 1;
+    min-width: 100%; 
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .timebox-colunas-container {
+    overflow-x: hidden;
+    gap: 0;
+  }
+
 }
