@@ -29,12 +29,10 @@ function renderizarCursos() {
     const details = document.createElement('details');
     details.className = 'curso-item';
 
-    // Calcula o progresso (opcional, para ficar bonito no título)
     const estacoesTotal = curso.estacoes.length;
     const estacoesConcluidas = curso.estacoes.filter(e => e.concluida).length;
     let progresso = estacoesTotal > 0 ? Math.round((estacoesConcluidas / estacoesTotal) * 100) : 0;
 
-    // Cabeçalho do curso
     const summary = document.createElement('summary');
     summary.innerHTML = `
       <div class="curso-header">
@@ -46,9 +44,8 @@ function renderizarCursos() {
       </div>
     `;
 
-    // Deletar Curso
     summary.querySelector('.curso-deletar').addEventListener('click', async (e) => {
-      e.preventDefault(); // Impede o acordeon de abrir/fechar ao clicar no "X"
+      e.preventDefault();
       if (confirm(`Remover o roadmap "${curso.titulo}" inteiro?`)) {
         const idDoCurso = curso.id;
         cursos.splice(indexCurso, 1);
@@ -59,8 +56,6 @@ function renderizarCursos() {
     });
 
     details.appendChild(summary);
-
-    // Lista de Estações (O miolo do acordeon)
     const ulEstacoes = document.createElement('ul');
     ulEstacoes.className = 'lista-estacoes';
 
@@ -73,10 +68,9 @@ function renderizarCursos() {
         <span>${estacao.nome}</span>
       `;
 
-      // Evento de marcar estação como concluída
       li.querySelector('input').addEventListener('change', async (e) => {
         curso.estacoes[indexEstacao].concluida = e.target.checked;
-        renderizarCursos(); // Atualiza a tela (e a % de progresso)
+        renderizarCursos();
 
         await supabaseClient
           .from('dash_cursos')
@@ -87,7 +81,6 @@ function renderizarCursos() {
       ulEstacoes.appendChild(li);
     });
 
-    // Adiciona botão para inserir nova estação no final da lista
     const btnNovaEstacao = document.createElement('button');
     btnNovaEstacao.className = 'btn-add-estacao';
     btnNovaEstacao.innerText = '+ Adicionar Estação';
@@ -95,10 +88,8 @@ function renderizarCursos() {
       const nomeEstacao = prompt(`Nome da nova estação/tópico para o roadmap "${curso.titulo}":`);
       if (nomeEstacao && nomeEstacao.trim() !== '') {
         curso.estacoes.push({ nome: nomeEstacao.trim(), concluida: false });
-        // Mantém o acordeon aberto após adicionar
         details.open = true;
         renderizarCursos();
-
         await supabaseClient
           .from('dash_cursos')
           .update({ estacoes: curso.estacoes })

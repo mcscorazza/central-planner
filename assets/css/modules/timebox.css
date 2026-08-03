@@ -83,7 +83,7 @@
   font-weight: 600;
   font-size: 0.7rem;
   width: 35px;
-  color: var(--text-muted);
+  color: var(--text-hidden);
   flex-shrink: 0;
   padding-top: 10px;
 }
@@ -114,7 +114,7 @@
   display: block;
   width: 100%;
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--text-hidden);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
