@@ -1,0 +1,124 @@
+.projeto-item {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.projeto-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+  background-color: rgba(255, 255, 255, 0.03);
+  transition: background-color 0.2s;
+}
+
+.projeto-header:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.projeto-titulo {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.projeto-titulo::before {
+  content: '▼';
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.projeto-item.collapsed .projeto-titulo::before {
+  transform: rotate(-90deg);
+}
+
+.btn-add-tarefa {
+  background: transparent;
+  border: 1px dashed var(--border-color);
+  color: var(--text-muted);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-add-tarefa:hover {
+  color: var(--cor-check);
+  border-color: var(--cor-check);
+  background: rgba(8, 150, 60, 0.1);
+}
+
+.lista-tarefas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+}
+
+.projeto-item.collapsed .lista-tarefas {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.tarefa-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px dashed var(--border-color);
+  font-size: 0.9rem;
+  gap: 10px;
+}
+
+.tarefa-checkbox {
+  accent-color: var(--cor-check);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.tarefa-item.concluida span {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.projeto-acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-deletar-projeto {
+  cursor: pointer;
+  color: var(--border-color);
+  font-size: 0.9rem;
+  transition: color 0.2s, transform 0.2s;
+  padding: 4px;
+}
+
+.projeto-item:hover .btn-deletar-projeto {
+  color: var(--text-muted);
+}
+
+.btn-deletar-projeto:hover {
+  color: var(--cor-falha) !important;
+  transform: scale(1.1);
+}
+
+#lista-projetos-container {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}

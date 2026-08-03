@@ -1,0 +1,125 @@
+.cursos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.curso-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.curso-item summary {
+  padding: 10px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.curso-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.curso-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.curso-titulo {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.curso-acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.curso-progresso {
+  font-size: 0.8rem;
+  color: var(--cor-projeto, #7c3aed);
+  background: rgba(124, 58, 237, 0.1);
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.curso-deletar {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.curso-deletar:hover {
+  color: var(--cor-falha);
+}
+
+.lista-estacoes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px dashed var(--border-color);
+}
+
+.estacao-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.estacao-item.concluida span {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.estacao-acoes-container {
+  padding: 8px;
+  text-align: center;
+}
+
+.btn-add-estacao {
+  background: transparent;
+  border: 1px dashed var(--border-color);
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.btn-add-estacao:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+.btn-add-roadmap {
+  position: absolute;
+  top: 8px;
+  right: 24px;
+  background: transparent;
+  border: 1px dashed var(--border-color);
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.btn-add-roadmap:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+#widget-cursos.collapsed .btn-add-roadmap,
+#widget-cursos.collapsed .cursos-container {
+  display: none;
+}

@@ -4,7 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Pessoal</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/modules/modais.css" />
+    <link rel="stylesheet" href="assets/css/modules/bujo.css" />
+    <link rel="stylesheet" href="assets/css/modules/projetos.css" />
+    <link rel="stylesheet" href="assets/css/modules/consultas.css" />
+    <link rel="stylesheet" href="assets/css/modules/energia.css" />
+    <link rel="stylesheet" href="assets/css/modules/timebox.css" />
+    <link rel="stylesheet" href="assets/css/modules/habitos.css" />
+    <link rel="stylesheet" href="assets/css/modules/cursos.css" />
+    <link rel="stylesheet" href="assets/css/modules/financas.css" />
+    <link rel="stylesheet" href="assets/css/modules/aniverssarios.css" />
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/main.js"></script>
   </head>
@@ -198,19 +211,27 @@
 
       <!-- COLUNA 2: O FOCO PRINCIPAL DA APLICAÇÃO -->
       <section class="coluna painel-foco">
-        <div class="widget timeboxing">
-          <div class="timebox-header">
-            <h3>Timeboxing</h3>
-            <button
-              id="btn-limpar-dia"
-              class="btn-limpar-dia"
-              title="Limpar todos os blocos"
-            >
-              ✖ Day Clean
-            </button>
-          </div>
-          <div id="grade-horarios" class="timebox-container">
-            <!-- Gerado dinamicamente via Javascript -->
+        <div class="widget timeboxing" id="widget-timebox">
+          <h3>⏳ Timeboxing</h3>
+
+          <div class="timebox-colunas-container">
+            <!-- Ontem -->
+            <div class="timebox-dia" id="coluna-ontem">
+              <h4 class="dia-titulo">D-1</h4>
+              <div class="grade-horarios" id="grade-ontem"></div>
+            </div>
+
+            <!-- Hoje (Destaque) -->
+            <div class="timebox-dia atual" id="coluna-hoje">
+              <h4 class="dia-titulo">Hoje</h4>
+              <div class="grade-horarios" id="grade-hoje"></div>
+            </div>
+
+            <!-- Amanhã -->
+            <div class="timebox-dia" id="coluna-amanha">
+              <h4 class="dia-titulo">D+1</h4>
+              <div class="grade-horarios" id="grade-amanha"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -270,8 +291,8 @@
           id="widget-cursos"
           style="position: relative"
         >
-          <h3>📚 Courses & Self-studying</h3>
-          <button id="btn-novo-curso" class="btn-add-roadmap">+ Roadmap</button>
+          <h3>Self-studying</h3>
+          <button id="btn-novo-curso" class="btn-add-roadmap">+ Course</button>
           <div
             id="lista-cursos-container"
             class="cursos-container"
@@ -294,7 +315,17 @@
             </ul>
           </div>
         </div>
-
+        <div
+          class="widget collapsible"
+          id="widget-aniversarios"
+          style="position: relative"
+        >
+          <h3>Birthdays</h3>
+          <button id="btn-novo-aniv" class="btn-add-aniv">+ Novo</button>
+          <ul id="lista-aniversarios" class="lista-aniversarios">
+            <!-- O JavaScript vai injetar a lista aqui -->
+          </ul>
+        </div>
         <!-- Card Financeiro -->
         <div class="widget financeiro">
           <div class="fin-header">
@@ -362,9 +393,41 @@
           <button type="button" id="btn-limpar">Limpar Bloco</button>
           <button type="submit" id="btn-salvar">Salvar Bloco</button>
         </div>
+
+        <input type="hidden" id="input-data-id" />
       </form>
     </dialog>
 
+    <!-- Modal Novo Aniversário -->
+    <dialog id="modal-aniversario" class="modal">
+      <div class="modal-content">
+        <h3>Adicionar Aniversariante</h3>
+        <form id="form-aniversario">
+          <div class="form-group">
+            <label for="input-aniv-nome">Nome da Pessoa:</label>
+            <input
+              type="text"
+              id="input-aniv-nome"
+              required
+              placeholder="Ex: João Silva"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="input-aniv-data">Data de Nascimento:</label>
+            <input type="date" id="input-aniv-data" required />
+          </div>
+          <div class="modal-actions">
+            <button type="button" id="btn-cancelar-aniv" class="btn-secundario">
+              Cancelar
+            </button>
+            <button type="submit" class="btn-primario">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <!-- Modal Financeiro -->
     <dialog id="modal-financeiro" class="modal">
       <form id="form-financeiro" method="dialog">
         <h3>Adicionar Conta</h3>
@@ -405,25 +468,6 @@
         placeholder="O que está na sua mente? (Aperte Enter)"
         autocomplete="off"
       />
-    </dialog>
-
-    <!-- Modal de Confirmacao (Zerar o Dia) -->
-    <dialog id="modal-confirmacao" class="modal">
-      <h3 style="color: var(--cor-falha)">Limpar Agenda</h3>
-      <p style="color: var(--text-muted); margin-top: 10px; line-height: 1.5">
-        Tem certeza que deseja apagar todos os blocos de tempo agendados para
-        hoje? Esta ação não pode ser desfeita.
-      </p>
-      <div class="modal-botoes">
-        <button type="button" id="btn-cancelar-limpeza">Cancelar</button>
-        <button
-          type="button"
-          id="btn-confirmar-limpeza"
-          style="background-color: var(--cor-falha); color: #fff"
-        >
-          Limpar Tudo
-        </button>
-      </div>
     </dialog>
 
     <!-- Modal de Novo Projeto -->

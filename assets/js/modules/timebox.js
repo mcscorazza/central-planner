@@ -6,184 +6,215 @@ import { supabaseClient } from './supabase.js';
 
 let timeboxState = {};
 
-// Pega a data local no formato YYYY-MM-DD para salvar no banco
-const fusoHorarioOffset = (new Date()).getTimezoneOffset() * 60000;
-const hoje = (new Date(Date.now() - fusoHorarioOffset)).toISOString().split('T')[0];
-
 const grade = document.getElementById('grade-horarios');
 const modal = document.getElementById('modal-tarefa');
 const formTarefa = document.getElementById('form-tarefa');
-const modalConfirmacao = document.getElementById('modal-confirmacao');
 
+// =========================================================
+// FUNÇÃO UTILITÁRIA DE DATA (Subida para ficar global)
+// =========================================================
+function obterDataISO(diasDeDiferenca = 0) {
+  const data = new Date();
+  data.setDate(data.getDate() + diasDeDiferenca);
+  return data.toISOString().split('T')[0];
+}
+
+// =========================================================
+// CARREGAR DADOS DO SUPABASE
+// =========================================================
 export async function carregarTimebox() {
-  inicializarGrade(); // Monta os blocos vazios primeiro
-
+  inicializarGrade();
+  const diasVisiveis = [obterDataISO(-1), obterDataISO(0), obterDataISO(1)];
   const { data, error } = await supabaseClient
     .from('dash_timebox')
     .select('*')
-    .eq('data_referencia', hoje); // Filtra apenas o dia de hoje!
+    .in('data_referencia', diasVisiveis);
 
   if (error) {
     console.error('Erro ao carregar Timebox:', error);
     return;
   }
 
-  // Alimenta o estado local e desenha na tela
   data.forEach(bloco => {
-    timeboxState[bloco.hora_id] = { 
-      titulo: bloco.titulo, 
-      corSelecionada: bloco.cor, 
-      duracao: bloco.duracao 
+    timeboxState[bloco.hora_id] = {
+      titulo: bloco.titulo,
+      corSelecionada: bloco.cor,
+      duracao: bloco.duracao
     };
     aplicarBlocoVisual(bloco.hora_id, bloco.titulo, bloco.cor, bloco.duracao);
   });
 }
 
+// =========================================================
+// DESENHAR A GRADE VAZIA
+// =========================================================
 function inicializarGrade() {
-  grade.innerHTML = '';
-  for (let horaDec = 5; horaDec < 20; horaDec += 0.5) {
-    const h = Math.floor(horaDec);
-    const m = (horaDec % 1 === 0) ? '00' : '30';
-    const horaFormatada = `${h.toString().padStart(2, '0')}:${m}`;
-    const idOriginal = horaDec;
-    const idStr = idOriginal.toString().replace('.', '_');
+  const dias = [
+    { id: 'ontem', container: 'grade-ontem', dataIso: obterDataISO(-1) },
+    { id: 'hoje', container: 'grade-hoje', dataIso: obterDataISO(0) },
+    { id: 'amanha', container: 'grade-amanha', dataIso: obterDataISO(1) }
+  ];
 
-    const divLinha = document.createElement('div');
-    divLinha.className = 'linha-tempo';
-    divLinha.id = `linha-${idStr}`;
+  dias.forEach(dia => {
+    const gradeDia = document.getElementById(dia.container);
+    if (!gradeDia) return;
+    gradeDia.innerHTML = '';
 
-    const divBlock = document.createElement('div');
-    divBlock.className = 'bloco-hora';
-    divBlock.dataset.id = idOriginal;
-    divBlock.id = `bloco-${idStr}`;
+    for (let horaDec = 7; horaDec < 18.5; horaDec += 0.5) {
+      const h = Math.floor(horaDec);
+      const m = (horaDec % 1 === 0) ? '00' : '30';
+      const horaFormatada = `${h.toString().padStart(2, '0')}:${m}`;
 
-    divLinha.innerHTML = `<span class="hora-label">${horaFormatada}</span>`;
-    divBlock.innerHTML = `<span class="texto-tarefa" id="texto-${idStr}">Livre</span>`;
+      const idHora = horaDec.toString().replace('.', '_');
+      const idUnico = `${dia.dataIso}_${idHora}`;
 
-    divBlock.addEventListener('click', () => {
-      document.getElementById('input-hora-id').value = idOriginal;
-      document.getElementById('modal-hora-display').innerText = horaFormatada;
-      
-      const textoAtual = document.getElementById(`texto-${idStr}`).innerText;
-      document.getElementById('input-titulo').value = (textoAtual !== 'Livre') ? textoAtual : '';
-      
-      modal.showModal();
-    });
+      const divLinha = document.createElement('div');
+      divLinha.className = 'linha-tempo';
+      divLinha.id = `linha-${idUnico}`;
 
-    divLinha.appendChild(divBlock);
-    grade.appendChild(divLinha);
-  }
+      const divBlock = document.createElement('div');
+      divBlock.className = 'bloco-hora';
+      divBlock.dataset.id = idHora;
+      divBlock.dataset.data = dia.dataIso;
+      divBlock.id = `bloco-${idUnico}`;
+
+      divLinha.innerHTML = `<span class="hora-label">${horaFormatada}</span>`;
+      divBlock.innerHTML = `<span class="texto-tarefa" id="texto-${idUnico}">Livre</span>`;
+
+      divBlock.addEventListener('click', () => abrirModal(idHora, horaFormatada, dia.dataIso, idUnico));
+
+      divLinha.appendChild(divBlock);
+      gradeDia.appendChild(divLinha);
+    }
+  });
 }
 
-function aplicarBlocoVisual(idStr, titulo, corSelecionada, duracao) {
-  const idOriginal = parseFloat(idStr.replace('_', '.'));
-  const caixa = document.getElementById(`bloco-${idStr}`);
+// =========================================================
+// LÓGICA DE MODAL E VISUAL
+// =========================================================
+function abrirModal(idHora, horaFormatada, dataIso, idUnico) {
+  document.getElementById('input-hora-id').value = idHora;
+  document.getElementById('input-data-id').value = dataIso;
+  document.getElementById('modal-hora-display').innerText = `${horaFormatada} (${dataIso.split('-').reverse().join('/')})`;
+
+  const textoAtual = document.getElementById(`texto-${idUnico}`).innerText;
+  document.getElementById('input-titulo').value = (textoAtual !== 'Livre') ? textoAtual : '';
+
+  modal.showModal();
+}
+
+function aplicarBlocoVisual(idUnico, titulo, corSelecionada, duracao) {
+  const dataIso = idUnico.substring(0, 10);
+  const horaStr = idUnico.substring(11);
+  const idOriginal = parseFloat(horaStr.replace('_', '.'));
+  const caixa = document.getElementById(`bloco-${idUnico}`);
+
   if (!caixa) return;
 
   for (let i = 1; i < duracao; i++) {
     const proxId = idOriginal + (i * 0.5);
-    const proxLinha = document.getElementById(`linha-${proxId.toString().replace('.', '_')}`);
+    const proxIdStr = proxId.toString().replace('.', '_');
+    const proxLinha = document.getElementById(`linha-${dataIso}_${proxIdStr}`);
     if (proxLinha) proxLinha.style.display = 'none';
   }
 
-  const novaAltura = (28 * duracao) + (2 * (duracao - 1)); 
+  const novaAltura = (32 * duracao) + (4 * (duracao - 1));
   caixa.style.height = `${novaAltura}px`;
   caixa.dataset.duracaoAtiva = duracao;
 
-  document.getElementById(`texto-${idStr}`).innerText = titulo;
-  document.getElementById(`texto-${idStr}`).style.color = 'var(--cor-muted})';
+  const textoElement = document.getElementById(`texto-${idUnico}`);
+  if (textoElement) {
+    textoElement.innerText = titulo;
+    textoElement.style.color = '#ffffff';
+  }
+
   caixa.style.backgroundColor = `var(--${corSelecionada})`;
   caixa.style.border = "none";
 }
 
-async function limparBlocoLogico(idOriginalStr) {
-  const caixa = document.getElementById(`bloco-${idOriginalStr}`);
-  const duracaoAntiga = parseInt(caixa.dataset.duracaoAtiva) || 1;
-  const idOriginalNum = parseFloat(idOriginalStr.replace('_', '.'));
+function limparBlocoLogico(idUnicoDOM) {
+  const caixa = document.getElementById(`bloco-${idUnicoDOM}`);
+  if (!caixa) return;
 
-  caixa.style.height = `var(--altura-bloco)`;
-  caixa.style.backgroundColor = `var(--cor-vazio)`;
-  caixa.style.border = "1px dashed rgba(255,255,255,0.1)"; // Retorna à borda original
-  
-  const texto = document.getElementById(`texto-${idOriginalStr}`);
-  texto.innerText = 'Livre';
-  texto.style.color = 'var(--text-muted)';
+  const duracaoAntiga = parseInt(caixa.dataset.duracaoAtiva) || 1;
+  const dataReferencia = idUnicoDOM.substring(0, 10);
+  const horaStr = idUnicoDOM.substring(11);
+  const horaDec = parseFloat(horaStr.replace('_', '.'));
+
+  caixa.style.height = `32px`;
+  caixa.style.backgroundColor = `var(--bg-panel)`;
+  caixa.style.border = "1px dashed rgba(255,255,255,0.1)";
+
+  const textoElement = document.getElementById(`texto-${idUnicoDOM}`);
+  if (textoElement) {
+    textoElement.innerText = 'Livre';
+    textoElement.style.color = 'var(--text-muted)';
+  }
   caixa.dataset.duracaoAtiva = 1;
 
   for (let i = 1; i < duracaoAntiga; i++) {
-    const proxId = idOriginalNum + (i * 0.5);
-    const proxLinha = document.getElementById(`linha-${proxId.toString().replace('.', '_')}`);
+    const proxId = horaDec + (i * 0.5);
+    const proxIdStr = proxId.toString().replace('.', '_');
+    const proxLinha = document.getElementById(`linha-${dataReferencia}_${proxIdStr}`);
     if (proxLinha) proxLinha.style.display = 'flex';
   }
-
-  delete timeboxState[idOriginalStr];
-
-  // Remove do Banco de Dados
-  await supabaseClient
-    .from('dash_timebox')
-    .delete()
-    .eq('data_referencia', hoje)
-    .eq('hora_id', idOriginalStr);
 }
 
+// =========================================================
+// EVENTOS (SALVAR E LIMPAR)
+// =========================================================
 export function iniciarEventosTimebox() {
-  // Modal: Cancelar
   document.getElementById('btn-cancelar').addEventListener('click', () => modal.close());
 
-  // Modal: Limpar UM Bloco
-  document.getElementById('btn-limpar').addEventListener('click', async () => {
-    const idOriginal = document.getElementById('input-hora-id').value;
-    const caixaIdStr = idOriginal.toString().replace('.', '_');
-    
-    await limparBlocoLogico(caixaIdStr);
-    modal.close();
-  });
-
-  // Modal: Salvar Bloco
   formTarefa.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const idOriginal = parseFloat(document.getElementById('input-hora-id').value);
+    const valorInputHora = document.getElementById('input-hora-id').value;
+    const horaDec = parseFloat(valorInputHora.replace('_', '.'));
+    const dataReferencia = document.getElementById('input-data-id').value;
     const titulo = document.getElementById('input-titulo').value;
     const corSelecionada = document.getElementById('select-cor').value;
     const duracao = parseInt(document.getElementById('select-duracao').value);
-    const caixaIdStr = idOriginal.toString().replace('.', '_');
 
-    // Sempre limpa visualmente antes de aplicar o novo tamanho para não embolar
-    await limparBlocoLogico(caixaIdStr);
-    
-    aplicarBlocoVisual(caixaIdStr, titulo, corSelecionada, duracao);
-    timeboxState[caixaIdStr] = { titulo, corSelecionada, duracao };
+    const horaStr = horaDec.toString().replace('.', '_');
+    const idUnicoDOM = `${dataReferencia}_${horaStr}`;
+
+    limparBlocoLogico(idUnicoDOM);
+    aplicarBlocoVisual(idUnicoDOM, titulo, corSelecionada, duracao);
+
+    timeboxState[idUnicoDOM] = { titulo, corSelecionada, duracao };
     modal.close();
 
-    // Faz o Upsert (Atualiza se já houver registro nesse horário, insere se for novo)
     await supabaseClient.from('dash_timebox').upsert(
       {
-        data_referencia: hoje,
-        hora_id: caixaIdStr,
+        data_referencia: dataReferencia,
+        hora_id: idUnicoDOM,
         titulo: titulo,
         cor: corSelecionada,
         duracao: duracao
-      }, 
+      },
       { onConflict: 'user_id, data_referencia, hora_id' }
     );
   });
 
-  // Limpar DIA INTEIRO
-  document.getElementById('btn-limpar-dia').addEventListener('click', () => {
-    if (Object.keys(timeboxState).length > 0) modalConfirmacao.showModal();
-  });
+  // CORREÇÃO 3: ADICIONADO BOTÃO DE LIMPAR (DELETAR DO BANCO)
+  const btnLimpar = document.getElementById('btn-limpar');
+  if (btnLimpar) {
+    btnLimpar.addEventListener('click', async () => {
+      const valorInputHora = document.getElementById('input-hora-id').value;
+      const horaDec = parseFloat(valorInputHora.replace('_', '.'));
+      const dataReferencia = document.getElementById('input-data-id').value;
 
-  document.getElementById('btn-cancelar-limpeza').addEventListener('click', () => modalConfirmacao.close());
+      const horaStr = horaDec.toString().replace('.', '_');
+      const idUnicoDOM = `${dataReferencia}_${horaStr}`;
 
-  document.getElementById('btn-confirmar-limpeza').addEventListener('click', async () => {
-    timeboxState = {};
-    inicializarGrade(); // Reseta visualmente a grade toda
-    modalConfirmacao.close();
+      limparBlocoLogico(idUnicoDOM);
+      delete timeboxState[idUnicoDOM];
+      modal.close();
 
-    // Deleta do banco todos os blocos do dia de HOJE
-    await supabaseClient
-      .from('dash_timebox')
-      .delete()
-      .eq('data_referencia', hoje);
-  });
+      await supabaseClient
+        .from('dash_timebox')
+        .delete()
+        .match({ data_referencia: dataReferencia, hora_id: idUnicoDOM });
+    });
+  }
 }

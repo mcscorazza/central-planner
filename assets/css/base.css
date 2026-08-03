@@ -1,0 +1,25 @@
+:root {
+  --cor-projeto: #3b82f633;
+  --cor-reuniao: #e6490033;
+  --cor-admin: #491f0b33;
+  --cor-leitura: #22c55e33;
+  --cor-externo: #8d00df33;
+  --cor-estudo: #eab30833;
+  --cor-evento: #ef444433;
+  --cor-vazio: transparent;
+
+  --cor-check: #08963c;
+  --cor-falha: #ef4444;
+  --cor-alerta: #eab308;
+  --cor-neutro: #3b82f6;
+
+  --bg-body: #0f172a;
+  --bg-panel: #1e293b;
+  --border-color: #334155;
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-title: #e6a800;
+
+  --altura-bloco: 32px;
+  --gap-bloco: 4px;
+}

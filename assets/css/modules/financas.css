@@ -1,0 +1,135 @@
+.fin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.fin-header h3 {
+  margin-bottom: 0;
+}
+
+.btn-icon {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.btn-icon:hover {
+  color: var(--text-main);
+  border-color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.fin-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+
+.fin-item {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-right: 8px;
+  border: 1px solid var(--border-color);
+  transition: opacity 0.2s;
+}
+
+.fin-status {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--cor-falha);
+  cursor: pointer;
+  margin-right: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px var(--cor-falha);
+  transition: all 0.3s;
+}
+
+.fin-detalhes {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fin-nome {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--text-main);
+}
+
+.fin-vencimento {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.fin-valor {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.fin-deletar {
+  cursor: pointer;
+  color: var(--border-color);
+  font-size: 1rem;
+  padding: 4px 0 4px 8px;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.fin-item:hover .fin-deletar {
+  opacity: 1;
+}
+
+.fin-deletar:hover {
+  color: var(--cor-falha);
+}
+
+.fin-item.pago {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+.fin-item.pago .fin-status {
+  background-color: var(--cor-check);
+  box-shadow: 0 0 4px var(--cor-check);
+}
+
+.fin-item.pago .fin-nome,
+.fin-item.pago .fin-valor {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.fin-resumo {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}

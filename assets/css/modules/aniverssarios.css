@@ -1,0 +1,113 @@
+.lista-aniversarios {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aniv-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+.aniv-item.aniv-hoje {
+  background: rgba(234, 179, 8, 0.1);
+  border-color: #eab308;
+}
+
+.aniv-avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  background: var(--bg-body);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.aniv-item.aniv-hoje .aniv-avatar {
+  background: #eab308;
+  color: #111;
+  border-color: #eab308;
+}
+
+.aniv-detalhes {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.aniv-nome {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--text-main);
+}
+
+.aniv-data {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+}
+
+.aniv-badge {
+  font-size: 0.7rem;
+  background: #eab308;
+  color: #111;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.aniv-deletar {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.3;
+  transition: opacity 0.2s;
+}
+
+.aniv-item:hover .aniv-deletar {
+  opacity: 1;
+}
+
+.aniv-deletar:hover {
+  color: var(--cor-falha);
+}
+
+.btn-add-aniv {
+  position: absolute;
+  top: 8px;
+  right: 24px;
+  background: transparent;
+  border: 1px dashed var(--border-color);
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+
+.btn-add-aniv:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+#widget-aniversarios.collapsed .lista-aniversarios,
+#widget-aniversarios.collapsed #btn-novo-aniv {
+  display: none;
+}

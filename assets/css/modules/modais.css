@@ -1,0 +1,70 @@
+.modal {
+  background-color: var(--bg-panel);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.modal label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: var(--bg-body);
+  border: 1px solid var(--border-color);
+  color: #fff;
+}
+
+.modal-botoes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.modal-botoes button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#btn-cancelar,
+#btn-cancelar-fin {
+  background-color: #33333388;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+#btn-limpar {
+  background-color: #7e0d0d;
+  color: #fca5a5;
+}
+
+#btn-salvar,
+#btn-salvar-fin {
+  background-color: var(--cor-check);
+  color: #fff;
+}

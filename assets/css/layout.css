@@ -1,0 +1,239 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-body);
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  color: var(--text-main);
+  color-scheme: dark;
+  box-sizing: border-box;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr 1.25fr 1fr;
+  gap: 8px;
+  height: 100vh;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.coluna {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.coluna h2 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.widget {
+  background-color: var(--bg-panel);
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.widget h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: var(--text-title);
+  flex-shrink: 0;
+}
+
+.widget.collapsible {
+  transition: flex-grow 0.3s ease;
+}
+
+.widget.collapsible h3 {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  transition: color 0.2s;
+  margin-bottom: 0;
+  padding-bottom: 12px;
+}
+
+.widget.collapsible h3:hover {
+  color: #fff;
+}
+
+.widget.collapsible h3::after {
+  content: '▼';
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.widget.collapsed {
+  flex: 0 0 auto;
+}
+
+.widget.collapsed h3::after {
+  transform: rotate(-90deg);
+}
+
+.conteudo-colapsavel {
+  max-height: 800px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height 0.3s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.widget.collapsed .conteudo-colapsavel {
+  max-height: 0;
+  opacity: 0;
+}
+
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.login-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-body);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.login-modal {
+  width: 350px;
+}
+
+.mensagem-erro {
+  color: var(--cor-falha);
+  font-size: 0.85rem;
+  margin-top: 10px;
+  text-align: center;
+  min-height: 20px;
+}
+
+.btn-submit-login {
+  width: 100%;
+  margin-top: 20px;
+  background-color: var(--cor-check);
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: filter 0.2s;
+}
+
+.btn-submit-login:hover {
+  filter: brightness(1.1);
+}
+
+.btn-submit-login:disabled {
+  background-color: var(--border-color);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.fab-mobile {
+  display: none;
+}
+
+@media (max-width: 850px) {
+
+  html,
+  body {
+    height: auto !important;
+    overflow: auto !important;
+  }
+
+  .dashboard-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin-bottom: 75px;
+  }
+
+
+  .coluna {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .widget,
+  .widget.timeboxing,
+  .widget.rapid-log {
+    flex: none !important;
+    height: auto !important;
+    min-height: 30px;
+    overflow: visible !important;
+    margin-bottom: 8px;
+  }
+
+  .fab-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--cor-check, #28a745);
+    color: white;
+    font-size: 32px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    cursor: pointer;
+    line-height: 1;
+    padding-bottom: 4px;
+  }
+
+  .fab-mobile:active {
+    transform: scale(0.95);
+  }
+}
