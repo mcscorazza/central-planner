@@ -10,6 +10,7 @@ import { carregarHabitos, iniciarEventosHabitos } from './modules/habits.js';
 import { carregarConsultas, iniciarEventosConsultas } from './modules/apointments.js';
 import { carregarCursos, iniciarEventosCursos } from './modules/courses.js';
 import { carregarAniversarios, iniciarEventosAniversarios } from './modules/aniversaries.js';
+import { iniciarEventosPlanejamento } from './modules/planning.js';
 
 const telaLogin = document.getElementById('tela-login');
 const dashboardApp = document.getElementById('dashboard-app');
@@ -61,6 +62,7 @@ iniciarEventosConsultas();
 iniciarAcordeonsWidgets();
 iniciarEventosCursos();
 iniciarEventosAniversarios()
+iniciarEventosPlanejamento()
 
 
 function iniciarAcordeonsWidgets() {

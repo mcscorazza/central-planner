@@ -22,7 +22,7 @@
   border-radius: 4px;
   display: flex;
   flex-direction: column;
-  min-height: 170px;
+  min-height: 250px;
 }
 
 /* Destaque para o dia atual */

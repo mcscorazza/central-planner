@@ -299,65 +299,65 @@
           </div>
 
           <!-- CARD: TERÇA -->
-<div class="dia-card" data-dia="segunda">
-  <div class="dia-header">
-    <span>Tue</span>
-    <button class="btn-add-foco" title="Adicionar Foco">+</button>
-  </div>
-  <ul class="macro-tarefas">
-  </ul>
-</div>
+          <div class="dia-card" data-dia="segunda">
+            <div class="dia-header">
+              <span>Tue</span>
+              <button class="btn-add-foco" title="Adicionar Foco">+</button>
+            </div>
+            <ul class="macro-tarefas">
+            </ul>
+          </div>
 
           <!-- CARD: QUARTA -->
           <div class="dia-card" data-dia="segunda">
-  <div class="dia-header">
-    <span>Wed</span>
-    <button class="btn-add-foco" title="Adicionar Foco">+</button>
-  </div>
-  <ul class="macro-tarefas">
-  </ul>
-</div>
+            <div class="dia-header">
+              <span>Wed</span>
+              <button class="btn-add-foco" title="Adicionar Foco">+</button>
+            </div>
+            <ul class="macro-tarefas">
+            </ul>
+          </div>
 
           <!-- CARD: QUINTA -->
-<div class="dia-card" data-dia="segunda">
-  <div class="dia-header">
-    <span>Thu</span>
-    <button class="btn-add-foco" title="Adicionar Foco">+</button>
-  </div>
-  <ul class="macro-tarefas">
-  </ul>
-</div>
+          <div class="dia-card" data-dia="segunda">
+            <div class="dia-header">
+              <span>Thu</span>
+              <button class="btn-add-foco" title="Adicionar Foco">+</button>
+            </div>
+            <ul class="macro-tarefas">
+            </ul>
+          </div>
 
           <!-- CARD: SEXTA -->
-<div class="dia-card" data-dia="segunda">
-  <div class="dia-header">
-    <span>Fri</span>
-    <button class="btn-add-foco" title="Adicionar Foco">+</button>
-  </div>
-  <ul class="macro-tarefas">
-  </ul>
-</div>
+          <div class="dia-card" data-dia="segunda">
+            <div class="dia-header">
+              <span>Fri</span>
+              <button class="btn-add-foco" title="Adicionar Foco">+</button>
+            </div>
+            <ul class="macro-tarefas">
+            </ul>
+          </div>
 
           <!-- CARD: SÁBADO -->
-<div class="dia-card" data-dia="segunda">
-  <div class="dia-header">
-    <span>Sat</span>
-    <button class="btn-add-foco" title="Adicionar Foco">+</button>
-  </div>
-  <ul class="macro-tarefas">
-  </ul>
-</div>
+          <div class="dia-card" data-dia="segunda">
+            <div class="dia-header">
+              <span>Sat</span>
+              <button class="btn-add-foco" title="Adicionar Foco">+</button>
+            </div>
+            <ul class="macro-tarefas">
+            </ul>
+          </div>
 
           <!-- CARD: DOMINGO -->
-<div class="dia-card" data-dia="segunda">
-  <div class="dia-header">
-    <span>Sun</span>
-    <button class="btn-add-foco" title="Adicionar Foco">+</button>
-  </div>
-  <ul class="macro-tarefas">
+          <div class="dia-card" data-dia="segunda">
+            <div class="dia-header">
+              <span>Sun</span>
+              <button class="btn-add-foco" title="Adicionar Foco">+</button>
+            </div>
+            <ul class="macro-tarefas">
 
-  </ul>
-</div>
+            </ul>
+          </div>
       </section>
     </main>
 
@@ -549,6 +549,29 @@
           </button>
         </div>
       </form>
+    </dialog>
+
+    <!-- Modal Novo Foco Semanal -->
+    <dialog id="modal-foco" class="modal">
+      <div class="modal-content">
+        <h3 id="modal-foco-titulo">🎯 Adicionar Foco</h3>
+        <form id="form-foco">
+          
+          <!-- Campo oculto para guardar em qual dia clicamos -->
+          <input type="hidden" id="input-foco-dia">
+          
+          <div class="form-group">
+            <label for="input-foco-texto">Qual o objetivo principal?</label>
+            <input type="text" id="input-foco-texto" required placeholder="Ex: Finalizar módulo de React" autocomplete="off">
+          </div>
+          
+          <div class="modal-actions">
+            <button type="button" id="btn-cancelar-foco" class="btn-secundario">Cancelar</button>
+            <button type="submit" class="btn-primario">Salvar</button>
+          </div>
+          
+        </form>
+      </div>
     </dialog>
 
     <!-- Botão flutuante exclusivo para celular (Spotlight) -->

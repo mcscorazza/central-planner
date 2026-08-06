@@ -118,7 +118,7 @@ function aplicarBlocoVisual(idUnico, titulo, corSelecionada, duracao) {
     if (proxLinha) proxLinha.style.display = 'none';
   }
 
-  const novaAltura = (28 * duracao) + (4 * (duracao - 1));
+  const novaAltura = (30 * duracao) + (4 * (duracao - 1));
   caixa.style.height = `${novaAltura}px`;
   caixa.dataset.duracaoAtiva = duracao;
 
