@@ -68,72 +68,6 @@
         <div style="height: 80px">
           <img src="./assets/logo.png" height="80px" alt="Logo" />
         </div>
-        <!-- Widget de Monitor de Sono -->
-        <div class="widget" style="flex: 0 0 auto">
-          <h3 style="margin-bottom: 12px">🛌🏻 Sleep Monitor</h3>
-
-          <div class="sono-inputs">
-            <div class="input-grupo">
-              <label>Dormiu às:</label>
-              <input type="time" id="sono-inicio" />
-            </div>
-            <div class="input-grupo">
-              <label>Acordou às:</label>
-              <input type="time" id="sono-fim" />
-            </div>
-            <button
-              id="btn-salvar-sono"
-              class="btn-icon"
-              style="height: 32px; width: 32px; align-self: flex-end"
-              title="Salvar Sono"
-            >
-              ✓
-            </button>
-          </div>
-
-          <div id="sono-resultado" class="sono-resultado">
-            <!-- Resultado gerado via JS -->
-          </div>
-        </div>
-
-        <!-- Widget de Energia Diária -->
-        <div class="widget" style="flex: 0 0 auto">
-          <h3 style="text-align: center; margin-bottom: 15px">
-            🔋 Energy Level
-          </h3>
-          <div class="energia-container">
-            <button
-              class="btn-energia"
-              data-nivel="baixa"
-              title="Baixa Energia"
-            >
-              📴
-            </button>
-            <button
-              class="btn-energia"
-              data-nivel="media"
-              title="Média Energia"
-            >
-              🔋
-            </button>
-            <button class="btn-energia" data-nivel="alta" title="Alta Energia">
-              🥇
-            </button>
-          </div>
-          <p
-            id="energia-status"
-            style="
-              text-align: center;
-              font-size: 0.8rem;
-              color: var(--text-muted);
-              margin-top: 10px;
-              font-style: italic;
-            "
-          >
-            How do you feeling today?
-          </p>
-        </div>
-
         <div class="widget card-habitos">
           <div
             class="header-com-botao"
@@ -215,8 +149,6 @@
       <!-- COLUNA 2: O FOCO PRINCIPAL DA APLICAÇÃO -->
       <section class="coluna painel-foco">
         <div class="widget timeboxing" id="widget-timebox">
-          <h3>📅 Timeboxing</h3>
-
           <div class="timebox-colunas-container">
             <!-- Ontem -->
             <div class="timebox-dia" id="coluna-ontem">
@@ -352,79 +284,82 @@
           </div>
         </div>
       </aside>
+
+      <!--  WIDGET: PLANEJAMENTO SEMANAL MACRO -->
+      <section class="planejamento-semanal">
+        <div class="semana-grid">
+          <!-- CARD: SEGUNDA -->
+          <div class="dia-card" data-dia="segunda">
+            <div class="dia-header">
+              <span>Mon</span>
+              <button class="btn-add-foco" title="Adicionar Foco">+</button>
+            </div>
+            <ul class="macro-tarefas">
+            </ul>
+          </div>
+
+          <!-- CARD: TERÇA -->
+<div class="dia-card" data-dia="segunda">
+  <div class="dia-header">
+    <span>Tue</span>
+    <button class="btn-add-foco" title="Adicionar Foco">+</button>
+  </div>
+  <ul class="macro-tarefas">
+  </ul>
+</div>
+
+          <!-- CARD: QUARTA -->
+          <div class="dia-card" data-dia="segunda">
+  <div class="dia-header">
+    <span>Wed</span>
+    <button class="btn-add-foco" title="Adicionar Foco">+</button>
+  </div>
+  <ul class="macro-tarefas">
+  </ul>
+</div>
+
+          <!-- CARD: QUINTA -->
+<div class="dia-card" data-dia="segunda">
+  <div class="dia-header">
+    <span>Thu</span>
+    <button class="btn-add-foco" title="Adicionar Foco">+</button>
+  </div>
+  <ul class="macro-tarefas">
+  </ul>
+</div>
+
+          <!-- CARD: SEXTA -->
+<div class="dia-card" data-dia="segunda">
+  <div class="dia-header">
+    <span>Fri</span>
+    <button class="btn-add-foco" title="Adicionar Foco">+</button>
+  </div>
+  <ul class="macro-tarefas">
+  </ul>
+</div>
+
+          <!-- CARD: SÁBADO -->
+<div class="dia-card" data-dia="segunda">
+  <div class="dia-header">
+    <span>Sat</span>
+    <button class="btn-add-foco" title="Adicionar Foco">+</button>
+  </div>
+  <ul class="macro-tarefas">
+  </ul>
+</div>
+
+          <!-- CARD: DOMINGO -->
+<div class="dia-card" data-dia="segunda">
+  <div class="dia-header">
+    <span>Sun</span>
+    <button class="btn-add-foco" title="Adicionar Foco">+</button>
+  </div>
+  <ul class="macro-tarefas">
+
+  </ul>
+</div>
+      </section>
     </main>
-
-    <!-- =========================================
-     WIDGET: PLANEJAMENTO SEMANAL MACRO
-========================================= -->
-    <section class="planejamento-semanal">
-      <div class="semana-header">
-        <h3>🗺️ Visão Macro da Semana</h3>
-      </div>
-
-      <div class="semana-grid">
-        <!-- CARD: SEGUNDA -->
-        <div class="dia-card" data-dia="segunda">
-          <div class="dia-header">Seg</div>
-          <ul class="macro-tarefas">
-            <li>Estruturar o Postgres do monolito</li>
-            <li>Avançar roadmap de Node + TS</li>
-          </ul>
-          <button class="btn-add-macro">+ Foco</button>
-        </div>
-
-        <!-- CARD: TERÇA -->
-        <div class="dia-card atual" data-dia="terca">
-          <div class="dia-header">Ter</div>
-          <ul class="macro-tarefas">
-            <li>Front-end em Reactjs</li>
-            <li>Escrever post em Markdown</li>
-          </ul>
-          <button class="btn-add-macro">+ Foco</button>
-        </div>
-
-        <!-- CARD: QUARTA -->
-        <div class="dia-card" data-dia="quarta">
-          <div class="dia-header">Qua</div>
-          <ul class="macro-tarefas">
-            <li>Estudar nova estação de DS e ML</li>
-          </ul>
-          <button class="btn-add-macro">+ Foco</button>
-        </div>
-
-        <!-- CARD: QUINTA -->
-        <div class="dia-card" data-dia="quinta">
-          <div class="dia-header">Qui</div>
-          <ul class="macro-tarefas">
-            <!-- Vazio -->
-          </ul>
-          <button class="btn-add-macro">+ Foco</button>
-        </div>
-
-        <!-- CARD: SEXTA -->
-        <div class="dia-card" data-dia="sexta">
-          <div class="dia-header">Sex</div>
-          <ul class="macro-tarefas">
-            <li>Revisar monolito</li>
-          </ul>
-          <button class="btn-add-macro">+ Foco</button>
-        </div>
-
-        <!-- CARD: SÁBADO -->
-        <div class="dia-card final-semana" data-dia="sabado">
-          <div class="dia-header">Sáb</div>
-          <ul class="macro-tarefas"></ul>
-          <button class="btn-add-macro">+ Foco</button>
-        </div>
-
-        <!-- CARD: DOMINGO -->
-        <div class="dia-card final-semana" data-dia="domingo">
-          <div class="dia-header">Dom</div>
-          <ul class="macro-tarefas"></ul>
-          <button class="btn-add-macro">+ Foco</button>
-        </div>
-      </div>
-    </section>
 
     <!-- MODAIS -->
     <!-- Modal do Timeboxing -->

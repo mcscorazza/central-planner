@@ -60,7 +60,7 @@ function inicializarGrade() {
     if (!gradeDia) return;
     gradeDia.innerHTML = '';
 
-    for (let horaDec = 7; horaDec < 18.5; horaDec += 0.5) {
+    for (let horaDec = 8; horaDec < 18.5; horaDec += 0.5) {
       const h = Math.floor(horaDec);
       const m = (horaDec % 1 === 0) ? '00' : '30';
       const horaFormatada = `${h.toString().padStart(2, '0')}:${m}`;
@@ -118,7 +118,7 @@ function aplicarBlocoVisual(idUnico, titulo, corSelecionada, duracao) {
     if (proxLinha) proxLinha.style.display = 'none';
   }
 
-  const novaAltura = (32 * duracao) + (4 * (duracao - 1));
+  const novaAltura = (28 * duracao) + (4 * (duracao - 1));
   caixa.style.height = `${novaAltura}px`;
   caixa.dataset.duracaoAtiva = duracao;
 

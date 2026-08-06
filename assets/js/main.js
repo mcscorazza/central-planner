@@ -7,7 +7,6 @@ import { carregarProjetos, iniciarEventosProjetos } from './modules/projects.js'
 import { carregarTimebox, iniciarEventosTimebox } from './modules/timebox.js';
 import { carregarFinanceiro, iniciarEventosFinanceiro } from './modules/finance.js';
 import { carregarHabitos, iniciarEventosHabitos } from './modules/habits.js';
-import { carregarMetricas, iniciarEventosEnergia, iniciarEventosSono } from './modules/metrics.js';
 import { carregarConsultas, iniciarEventosConsultas } from './modules/apointments.js';
 import { carregarCursos, iniciarEventosCursos } from './modules/courses.js';
 import { carregarAniversarios, iniciarEventosAniversarios } from './modules/aniversaries.js';
@@ -33,7 +32,6 @@ function mostrarDashboard() {
   carregarTimebox();
   carregarFinanceiro();
   carregarHabitos();
-  carregarMetricas();
   carregarConsultas();
   carregarCursos();
   carregarAniversarios();
@@ -59,8 +57,6 @@ iniciarEventosProjetos();
 iniciarEventosTimebox();
 iniciarEventosFinanceiro();
 iniciarEventosHabitos();
-iniciarEventosEnergia();
-iniciarEventosSono();
 iniciarEventosConsultas();
 iniciarAcordeonsWidgets();
 iniciarEventosCursos();

@@ -14,7 +14,7 @@ body {
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 2.5fr 1.25fr 1fr;
-  gap: 8px;
+  gap: 2px;
   height: 100vh;
   padding: 8px;
   box-sizing: border-box;
@@ -237,14 +237,14 @@ body {
     transform: scale(0.95);
   }
 
-  #coluna-ontem, 
+  #coluna-ontem,
   #coluna-amanha {
     display: none;
   }
 
   .timebox-dia.atual {
     flex: 1;
-    min-width: 100%; 
+    min-width: 100%;
     border-right: none;
     padding-right: 0;
   }
