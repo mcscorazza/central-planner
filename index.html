@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/css/modules/cursos.css" />
     <link rel="stylesheet" href="assets/css/modules/financas.css" />
     <link rel="stylesheet" href="assets/css/modules/aniverssarios.css" />
+    <link rel="stylesheet" href="assets/css/modules/planejamento.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/main.js"></script>
@@ -352,6 +353,78 @@
         </div>
       </aside>
     </main>
+
+    <!-- =========================================
+     WIDGET: PLANEJAMENTO SEMANAL MACRO
+========================================= -->
+    <section class="planejamento-semanal">
+      <div class="semana-header">
+        <h3>🗺️ Visão Macro da Semana</h3>
+      </div>
+
+      <div class="semana-grid">
+        <!-- CARD: SEGUNDA -->
+        <div class="dia-card" data-dia="segunda">
+          <div class="dia-header">Seg</div>
+          <ul class="macro-tarefas">
+            <li>Estruturar o Postgres do monolito</li>
+            <li>Avançar roadmap de Node + TS</li>
+          </ul>
+          <button class="btn-add-macro">+ Foco</button>
+        </div>
+
+        <!-- CARD: TERÇA -->
+        <div class="dia-card atual" data-dia="terca">
+          <div class="dia-header">Ter</div>
+          <ul class="macro-tarefas">
+            <li>Front-end em Reactjs</li>
+            <li>Escrever post em Markdown</li>
+          </ul>
+          <button class="btn-add-macro">+ Foco</button>
+        </div>
+
+        <!-- CARD: QUARTA -->
+        <div class="dia-card" data-dia="quarta">
+          <div class="dia-header">Qua</div>
+          <ul class="macro-tarefas">
+            <li>Estudar nova estação de DS e ML</li>
+          </ul>
+          <button class="btn-add-macro">+ Foco</button>
+        </div>
+
+        <!-- CARD: QUINTA -->
+        <div class="dia-card" data-dia="quinta">
+          <div class="dia-header">Qui</div>
+          <ul class="macro-tarefas">
+            <!-- Vazio -->
+          </ul>
+          <button class="btn-add-macro">+ Foco</button>
+        </div>
+
+        <!-- CARD: SEXTA -->
+        <div class="dia-card" data-dia="sexta">
+          <div class="dia-header">Sex</div>
+          <ul class="macro-tarefas">
+            <li>Revisar monolito</li>
+          </ul>
+          <button class="btn-add-macro">+ Foco</button>
+        </div>
+
+        <!-- CARD: SÁBADO -->
+        <div class="dia-card final-semana" data-dia="sabado">
+          <div class="dia-header">Sáb</div>
+          <ul class="macro-tarefas"></ul>
+          <button class="btn-add-macro">+ Foco</button>
+        </div>
+
+        <!-- CARD: DOMINGO -->
+        <div class="dia-card final-semana" data-dia="domingo">
+          <div class="dia-header">Dom</div>
+          <ul class="macro-tarefas"></ul>
+          <button class="btn-add-macro">+ Foco</button>
+        </div>
+      </div>
+    </section>
 
     <!-- MODAIS -->
     <!-- Modal do Timeboxing -->

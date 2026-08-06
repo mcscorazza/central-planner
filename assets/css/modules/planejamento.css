@@ -1,0 +1,114 @@
+/* =========================================
+   WIDGET: PLANEJAMENTO SEMANAL
+========================================= */
+.planejamento-semanal {
+  margin-top: 24px;
+  background: var(--bg-panel, rgba(30, 41, 59, 0.5));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.semana-header h3 {
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  color: var(--text-main, #fff);
+}
+
+.semana-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+.dia-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+}
+
+/* Destaque para o dia atual */
+.dia-card.atual {
+  border-color: var(--text-title, #7c3aed);
+  background: rgba(124, 58, 237, 0.05);
+}
+
+/* Diferenciação sutil para o final de semana */
+.dia-card.final-semana {
+  opacity: 0.7;
+}
+
+.dia-header {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
+  border-radius: 8px 8px 0 0;
+}
+
+.dia-card.atual .dia-header {
+  background: rgba(124, 58, 237, 0.2);
+  color: #fff;
+}
+
+.macro-tarefas {
+  list-style: none;
+  padding: 8px;
+  margin: 0;
+  flex: 1;
+  /* Empurra o botão pro final */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.macro-tarefas li {
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px;
+  border-radius: 4px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.3;
+}
+
+.btn-add-macro {
+  background: transparent;
+  border: none;
+  border-top: 1px dashed var(--border-color, rgba(255, 255, 255, 0.1));
+  color: var(--text-muted, #94a3b8);
+  padding: 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+  border-radius: 0 0 8px 8px;
+}
+
+.btn-add-macro:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main, #fff);
+}
+
+/* =========================================
+   RESPONSIVIDADE (MOBILE)
+========================================= */
+@media (max-width: 1024px) {
+  .semana-grid {
+    /* No tablet/celular, vira um scroll horizontal! */
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    /* Espaço para a barra de rolagem */
+    scroll-snap-type: x mandatory;
+  }
+
+  .dia-card {
+    min-width: 140px;
+    /* Garante que o card não seja esmagado */
+    scroll-snap-align: start;
+  }
+}
