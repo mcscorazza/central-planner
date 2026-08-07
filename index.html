@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="assets/css/modules/bujo.css" />
     <link rel="stylesheet" href="assets/css/modules/projetos.css" />
     <link rel="stylesheet" href="assets/css/modules/consultas.css" />
-    <link rel="stylesheet" href="assets/css/modules/energia.css" />
     <link rel="stylesheet" href="assets/css/modules/timebox.css" />
     <link rel="stylesheet" href="assets/css/modules/habitos.css" />
     <link rel="stylesheet" href="assets/css/modules/cursos.css" />
@@ -299,7 +298,7 @@
           </div>
 
           <!-- CARD: TERÇA -->
-          <div class="dia-card" data-dia="segunda">
+          <div class="dia-card" data-dia="terca">
             <div class="dia-header">
               <span>Tue</span>
               <button class="btn-add-foco" title="Adicionar Foco">+</button>
@@ -309,7 +308,7 @@
           </div>
 
           <!-- CARD: QUARTA -->
-          <div class="dia-card" data-dia="segunda">
+          <div class="dia-card" data-dia="quarta">
             <div class="dia-header">
               <span>Wed</span>
               <button class="btn-add-foco" title="Adicionar Foco">+</button>
@@ -319,7 +318,7 @@
           </div>
 
           <!-- CARD: QUINTA -->
-          <div class="dia-card" data-dia="segunda">
+          <div class="dia-card" data-dia="quinta">
             <div class="dia-header">
               <span>Thu</span>
               <button class="btn-add-foco" title="Adicionar Foco">+</button>
@@ -329,7 +328,7 @@
           </div>
 
           <!-- CARD: SEXTA -->
-          <div class="dia-card" data-dia="segunda">
+          <div class="dia-card" data-dia="sexta">
             <div class="dia-header">
               <span>Fri</span>
               <button class="btn-add-foco" title="Adicionar Foco">+</button>
@@ -339,7 +338,7 @@
           </div>
 
           <!-- CARD: SÁBADO -->
-          <div class="dia-card" data-dia="segunda">
+          <div class="dia-card" data-dia="sabado">
             <div class="dia-header">
               <span>Sat</span>
               <button class="btn-add-foco" title="Adicionar Foco">+</button>
@@ -349,7 +348,7 @@
           </div>
 
           <!-- CARD: DOMINGO -->
-          <div class="dia-card" data-dia="segunda">
+          <div class="dia-card" data-dia="domingo">
             <div class="dia-header">
               <span>Sun</span>
               <button class="btn-add-foco" title="Adicionar Foco">+</button>
@@ -427,11 +426,11 @@
             <label for="input-aniv-data">Data de Nascimento:</label>
             <input type="date" id="input-aniv-data" required />
           </div>
-          <div class="modal-actions">
-            <button type="button" id="btn-cancelar-aniv" class="btn-secundario">
+          <div class="modal-botoes">
+            <button type="button" id="btn-cancelar-aniv" class="btn-cancelar">
               Cancelar
             </button>
-            <button type="submit" class="btn-primario">Salvar</button>
+            <button type="submit" class="btn-salvar">Salvar</button>
           </div>
         </form>
       </div>
@@ -464,8 +463,8 @@
         />
 
         <div class="modal-botoes">
-          <button type="button" id="btn-cancelar-fin">Cancelar</button>
-          <button type="submit" id="btn-salvar-fin">Adicionar</button>
+          <button type="button" class="btn-cancelar" id="btn-cancelar-fin">Cancelar</button>
+          <button type="submit" class="btn-salvar" id="btn-salvar-fin">Adicionar</button>
         </div>
       </form>
     </dialog>
@@ -492,8 +491,8 @@
           placeholder="Ex: Aprender React"
         />
         <div class="modal-botoes">
-          <button type="button" id="btn-cancelar-projeto">Cancelar</button>
-          <button type="submit" id="btn-salvar-projeto">Criar Projeto</button>
+          <button type="button" class="btn-cancelar" id="btn-cancelar-projeto">Cancelar</button>
+          <button type="submit" class="btn-salvar" id="btn-salvar-projeto">Criar Projeto</button>
         </div>
       </form>
     </dialog>
@@ -511,8 +510,8 @@
         />
         <input type="hidden" id="input-id-projeto-tarefa" />
         <div class="modal-botoes">
-          <button type="button" id="btn-cancelar-tarefa">Cancelar</button>
-          <button type="submit" id="btn-salvar-tarefa">Adicionar Tarefa</button>
+          <button type="button" class="btn-cancelar" id="btn-cancelar-tarefa">Cancelar</button>
+          <button type="submit" class="btn-salvar" id="btn-salvar-tarefa">Adicionar Tarefa</button>
         </div>
       </form>
     </dialog>
@@ -543,7 +542,7 @@
           <button
             type="submit"
             id="btn-salvar-cons"
-            style="background-color: var(--cor-projeto); color: #fff"
+            class="btn-salvar"
           >
             Agendar
           </button>
@@ -565,10 +564,11 @@
             <input type="text" id="input-foco-texto" required placeholder="Ex: Finalizar módulo de React" autocomplete="off">
           </div>
           
-          <div class="modal-actions">
-            <button type="button" id="btn-cancelar-foco" class="btn-secundario">Cancelar</button>
-            <button type="submit" class="btn-primario">Salvar</button>
+          <div class="modal-botoes">
+            <button type="button" id="btn-cancelar-foco" class="btn-cancelar">Cancelar</button>
+            <button type="submit" class="btn-salvar">Salvar</button>
           </div>
+
           
         </form>
       </div>

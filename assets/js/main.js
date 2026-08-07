@@ -10,7 +10,7 @@ import { carregarHabitos, iniciarEventosHabitos } from './modules/habits.js';
 import { carregarConsultas, iniciarEventosConsultas } from './modules/apointments.js';
 import { carregarCursos, iniciarEventosCursos } from './modules/courses.js';
 import { carregarAniversarios, iniciarEventosAniversarios } from './modules/aniversaries.js';
-import { iniciarEventosPlanejamento } from './modules/planning.js';
+import { carregarPlanejamento, iniciarEventosPlanejamento, destacarDiaAtual } from './modules/planning.js';
 
 const telaLogin = document.getElementById('tela-login');
 const dashboardApp = document.getElementById('dashboard-app');
@@ -36,6 +36,7 @@ function mostrarDashboard() {
   carregarConsultas();
   carregarCursos();
   carregarAniversarios();
+  carregarPlanejamento();
 }
 
 function mostrarLogin() {
@@ -61,8 +62,9 @@ iniciarEventosHabitos();
 iniciarEventosConsultas();
 iniciarAcordeonsWidgets();
 iniciarEventosCursos();
-iniciarEventosAniversarios()
-iniciarEventosPlanejamento()
+iniciarEventosAniversarios();
+iniciarEventosPlanejamento();
+destacarDiaAtual();
 
 
 function iniciarAcordeonsWidgets() {

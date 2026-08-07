@@ -64,7 +64,8 @@
 }
 
 #btn-salvar,
-#btn-salvar-fin {
+#btn-salvar-fin,
+.btn-salvar {
   background-color: var(--cor-check);
   color: #fff;
 }
