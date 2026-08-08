@@ -10,6 +10,7 @@ import { carregarHabitos, iniciarEventosHabitos } from './modules/habits.js';
 import { carregarConsultas, iniciarEventosConsultas } from './modules/apointments.js';
 import { carregarCursos, iniciarEventosCursos } from './modules/courses.js';
 import { carregarAniversarios, iniciarEventosAniversarios } from './modules/aniversaries.js';
+import { renderizarCalendario } from './modules/calendar.js';
 import { carregarPlanejamento, iniciarEventosPlanejamento, destacarDiaAtual } from './modules/planning.js';
 
 const telaLogin = document.getElementById('tela-login');
@@ -37,6 +38,7 @@ function mostrarDashboard() {
   carregarCursos();
   carregarAniversarios();
   carregarPlanejamento();
+  renderizarCalendario();
 }
 
 function mostrarLogin() {

@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/css/modules/financas.css" />
     <link rel="stylesheet" href="assets/css/modules/aniverssarios.css" />
     <link rel="stylesheet" href="assets/css/modules/planejamento.css" />
+    <link rel="stylesheet" href="assets/css/modules/calendario.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/main.js"></script>
@@ -67,6 +68,30 @@
         <div style="height: 80px">
           <img src="./assets/logo.png" height="80px" alt="Logo" />
         </div>
+
+        <div class="widget" id="widget-calendario">
+          <div class="container-calendario">
+            <div class="calendario-header">
+              <!-- O JS vai trocar por "Agosto 2026", por exemplo -->
+              <h3 id="mes-ano-topo">Calendário</h3> 
+            </div>
+            
+            <div class="calendario-semana">
+              <span class="cor-domingo">Su</span>
+              <span>Mo</span>
+              <span>Tu</span>
+              <span>We</span>
+              <span>Th</span>
+              <span>Fr</span>
+              <span class="cor-sabado">Sa</span>
+            </div>
+            
+            <div class="calendario-dias" id="calendario-dias">
+              <!-- O JavaScript vai injetar os números dos dias aqui -->
+            </div>
+          </div>
+        </div>
+
         <div class="widget card-habitos">
           <div
             class="header-com-botao"

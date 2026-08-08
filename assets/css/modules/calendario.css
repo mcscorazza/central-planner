@@ -1,0 +1,72 @@
+/* =========================================
+   WIDGET: CALENDÁRIO
+========================================= */
+
+.calendario-header h3 {
+  text-align: center;
+  margin: 8px auto 16px auto;
+  color: var(--text-main, #fff);
+  font-size: 1rem;
+}
+
+.calendario-semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.65rem;
+  color: var(--text-muted, #94a3b8);
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--border-color, rgba(255, 255, 255, 0.1));
+}
+
+.cor-domingo { color: #ef4444; }
+.cor-sabado { color: #94a3b8; }
+
+.calendario-dias {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* Também 7 colunas! */
+  gap: 2px;
+}
+
+.cal-dia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--text-main, #fff);
+  background: rgba(255, 255, 255, 0.02);
+  transition: background 0.2s;
+}
+
+.cal-dia.vazio {
+  background: transparent;
+}
+
+.cal-dia.sabado {
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.cal-dia.domingo {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.05); 
+}
+
+.cal-dia.hoje {
+  background: var(--text-title);
+  color: #ffffff;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+}
+
+#widget-calendario {
+  padding: 8px 30px;
+  flex: none;
+  height: auto;
+  overflow: visible;
+  min-height: fit-content;
+}
