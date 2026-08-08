@@ -64,9 +64,13 @@
 }
 
 #widget-calendario {
-  padding: 8px 30px;
+  padding: 0 40px;
   flex: none;
   height: auto;
   overflow: visible;
   min-height: fit-content;
+  border: none;
+  background: transparent;
+  box-shadow:none;
+  margin-bottom: 12px;
 }
